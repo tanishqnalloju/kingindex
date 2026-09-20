@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KingIndex — Same paycheck. Different class.</title>
+<style>
+  :root {
+    --bg: #0b0e13;
+    --panel: #12171f;
+    --panel2: #18202b;
+    --border: #243041;
+    --text: #e6edf5;
+    --muted: #8b9bb0;
+    --accent: #3d9cf0;
+    --teal: #2ec4b6;
+    --gold: #e6b84d;
+    --king: #ffd76a;
+    --danger: #e85d5d;
+    --track: #1e2836;
+    --us-tick: #6b7c93;
+    --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font); }
+  body { min-height: 100vh; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 16px 18px 48px; }
+  header.app { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; margin-bottom: 14px; }
+  header.app h1 { margin: 0; font-size: 1.45rem; letter-spacing: -0.02em; font-weight: 700; }
+  header.app .tag { color: var(--muted); font-size: 0.95rem; }
+  .caveat {
+    background: #151b25;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 16px;
+  }
+  .caveat strong { color: #c9d4e3; font-weight: 600; }
+  .controls {
+    display: grid;
+    grid-template-columns: 1.1fr 0.7fr 1.2fr 1.2fr auto;
+    gap: 10px;
+    align-items: end;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 860px) {
+    .controls { grid-template-columns: 1fr 1fr; }
+    .controls .full { grid-column: 1 / -1; }
+  }
+  label { display: block; font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  input[type="number"], input[type="text"], select, button {
+    width: 100%;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 9px 10px;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+  }
+  input:focus, select:focus, button:focus { outline: 1px solid var(--accent); outline-offset: 1px; }
+  button.primary {
+    background: linear-gradient(180deg, #3d9cf0, #2a7bc4);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button.primary:hover { filter: brightness(1.08); }
+  button.ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    width: auto;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  button.ghost:hover { color: var(--text); border-color: #3a4d66; }
+  .hint { font-size: 0.78rem; color: var(--muted); margin: 0 0 16px; }
+  .summary {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    line-height: 1.55;
+    font-size: 0.95rem;
+  }
+  .summary .actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .card h2 { margin: 0 0 10px; font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+  .metric { margin: 8px 0; }
+  .metric .k { font-size: 0.72rem; color: var(--muted); }
+  .metric .v { font-size: 1.15rem; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .metric .s { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+  .band-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+  }
+  .band-Stretched { color: #8b9bb0; background: #1a2030; border-color: #2a3548; }
+  .band-Normal { color: #c5d0df; background: #1a2230; border-color: #2e3c52; }
+  .band-Comfortable { color: #2ec4b6; background: #122826; border-color: #1f4a45; }
+  .band-Affluent { color: #e6b84d; background: #2a2414; border-color: #5a4a1e; }
+  .band-King { color: #ffd76a; background: #2f2610; border-color: #7a6220; box-shadow: 0 0 0 1px rgba(255,215,106,0.15); }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  @media (max-width: 720px) { .tiles { grid-template-columns: 1fr; } }
+  .tile { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .tile h3 { margin: 0 0 8px; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .tile ol { margin: 0; padding-left: 18px; font-size: 0.88rem; }
+  .tile li { margin: 4px 0; font-variant-numeric: tabular-nums; }
+  .filters {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: end;
+    margin-bottom: 10px;
+  }
+  .filters > div { min-width: 140px; flex: 1; }
+  .filters .chk { display: flex; align-items: center; gap: 6px; padding-bottom: 8px; font-size: 0.85rem; color: var(--muted); }
+  .filters .chk input { width: auto; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+  thead th {
+    position: sticky; top: 0; z-index: 1;
+    background: #161d28;
+    text-align: left;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  thead th:hover { color: var(--text); }
+  thead th.sorted { color: var(--accent); }
+  tbody td { padding: 9px 8px; border-bottom: 1px solid #1a2230; vertical-align: middle; }
+  tbody tr:hover { background: #151c27; }
+  .iso { color: var(--muted); font-size: 0.75rem; margin-left: 4px; }
+  .pli-bar {
+    position: relative;
+    height: 8px;
+    width: 90px;
+    background: var(--track);
+    border-radius: 4px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  .pli-bar .fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    border-radius: 4px;
+    background: var(--accent);
+    max-width: 100%;
+  }
+  .pli-bar .tick {
+    position: absolute; top: -2px; bottom: -2px; width: 2px;
+    background: var(--us-tick); left: calc(100 / 160 * 100%);
+  }
+  .row-King td:first-child { color: var(--king); }
+  .err { color: var(--danger); padding: 20px; text-align: center; }
+  .hidden { display: none !important; }
+  footer.note { margin-top: 18px; font-size: 0.75rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app">
+    <h1>KingIndex</h1>
+    <span class="tag">Same paycheck. Different class.</span>
+  </header>
+
+  <div class="caveat" id="caveat">
+    <strong>Country-level consumption PPP</strong> (World Bank / ICP, extrapolated).<br />
+    Not your rent, taxes, visa, or school fees.<br />
+    Percentiles are a lognormal estimate from GNI/GDP per capita + Gini — not household survey microdata.<br />
+    Use this to rank places, not to accept a job.
+  </div>
+
+  <div class="controls" id="controls">
+    <div>
+      <label for="income">Annual income</label>
+      <input type="number" id="income" min="0" step="1000" value="80000" />
+    </div>
+    <div>
+      <label for="itype">Income type</label>
+      <select id="itype">
+        <option value="net" selected>Net (take-home)</option>
+        <option value="gross">Gross</option>
+      </select>
+    </div>
+    <div>
+      <label for="home">Home country</label>
+      <select id="home"></select>
+    </div>
+    <div>
+      <label for="dest">Destination</label>
+      <select id="dest">
+        <option value="">All countries</option>
+      </select>
+    </div>
+    <div class="full">
+      <label>&nbsp;</label>
+      <button class="primary" id="rankBtn" type="button">Rank →</button>
+    </div>
+  </div>
+  <p class="hint" id="currencyHint">Income is annual, in the home country's currency.</p>
+
+  <div id="status" class="err hidden"></div>
+
+  <div id="results" class="hidden">
+    <div class="summary">
+      <div id="summaryText"></div>
+      <div class="actions">
+        <button class="ghost" type="button" id="copyBtn">Copy summary</button>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card" id="homeCard"></div>
+      <div class="card" id="destCard"></div>
+    </div>
+
+    <div class="tiles">
+      <div class="tile">
+        <h3>Cheapest 5 · Comfortable+</h3>
+        <ol id="cheap5"></ol>
+      </div>
+      <div class="tile">
+        <h3>Highest local rank 5</h3>
+        <ol id="rank5"></ol>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div>
+        <label for="fRegion">Region</label>
+        <select id="fRegion"><option value="">All regions</option></select>
+      </div>
+      <div>
+        <label for="fBand">Band filter</label>
+        <select id="fBand">
+          <option value="">All bands</option>
+          <option value="Comfortable+">Comfortable+</option>
+          <option value="Affluent+">Affluent+</option>
+          <option value="King">King</option>
+        </select>
+      </div>
+      <div>
+        <label for="fSearch">Search</label>
+        <input type="text" id="fSearch" placeholder="Country name…" />
+      </div>
+      <div class="chk">
+        <input type="checkbox" id="fCheaper" />
+        <label for="fCheaper" style="margin:0;text-transform:none;letter-spacing:0;font-size:0.85rem;">Cheaper than home</label>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="name">Country</th>
+            <th data-sort="pli">Price level</th>
+            <th data-sort="stretch">Stretch vs home</th>
+            <th data-sort="equiv">Local equivalent</th>
+            <th data-sort="pct">Est. local %ile</th>
+            <th data-sort="band">Band</th>
+            <th data-sort="year">Data year</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="note" id="metaNote"></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- Math helpers ----------
+  function normCdf(x) {
+    // Abramowitz & Stegun 26.2.17 approximation
+    const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    const sign = x < 0 ? -1 : 1;
+    const t = 1 / (1 + p * Math.abs(x));
+    const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x / 2);
+    return 0.5 * (1 + sign * y);
+  }
+
+  // Acklam inverse normal CDF
+  function normInv(p) {
+    if (p <= 0) return -Infinity;
+    if (p >= 1) return Infinity;
+    const a = [
+      -3.969683028665376e+01, 2.209460984245205e+02,
+      -2.759285104469687e+02, 1.383577518672690e+02,
+      -3.066479806614716e+01, 2.506628277459239e+00
+    ];
+    const b = [
+      -5.447609879822406e+01, 1.615858368580409e+02,
+      -1.556989798598866e+02, 6.680131188771972e+01,
+      -1.328068155288572e+01
+    ];
+    const c = [
+      -7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00, -2.549732539343734e+00,
+      4.374664141464968e+00, 2.938163982698783e+00
+    ];
+    const d = [
+      7.784695709041462e-03, 3.224671290700398e-01,
+      2.445134137142996e+00, 3.754408661907416e+00
+    ];
+    const plow = 0.02425, phigh = 1 - plow;
+    let q, r;
+    if (p < plow) {
+      q = Math.sqrt(-2 * Math.log(p));
+      return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /
+             ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+    }
+    if (p > phigh) {
+      q = Math.sqrt(-2 * Math.log(1 - p));
+      return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /
+               ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+    }
+    q = p - 0.5;
+    r = q * q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5]) * q /
+           (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+
+  function sigmaFromGini(giniIndex) {
+    let g = giniIndex / 100;
+    g = Math.max(0.20, Math.min(0.65, g));
+    return Math.SQRT2 * normInv((g + 1) / 2);
+  }
+
+  function localPercentile(pppIncome, meanIncome, giniIndex) {
+    if (!(pppIncome > 0) || !(meanIncome > 0)) return null;
+    const sigma = sigmaFromGini(giniIndex);
+    const mu = Math.log(meanIncome) - (sigma * sigma) / 2;
+    const z = (Math.log(pppIncome) - mu) / sigma;
+    let p = normCdf(z) * 100;
+    p = Math.max(0.1, Math.min(99.9, p));
+    return p;
+  }
+
+  const GLOBAL_ANCHORS = [
+    [1000, 20], [2500, 40], [4000, 50], [10000, 70],
+    [20000, 82], [40000, 90], [60000, 95], [125000, 99], [250000, 99.7]
+  ];
+
+  function globalPercentile(pppIncome) {
+    if (!(pppIncome > 0)) return null;
+    if (pppIncome <= GLOBAL_ANCHORS[0][0]) return GLOBAL_ANCHORS[0][1];
+    const last = GLOBAL_ANCHORS[GLOBAL_ANCHORS.length - 1];
+    if (pppIncome >= last[0]) return last[1];
+    for (let i = 0; i < GLOBAL_ANCHORS.length - 1; i++) {
+      const [x0, y0] = GLOBAL_ANCHORS[i];
+      const [x1, y1] = GLOBAL_ANCHORS[i + 1];
+      if (pppIncome >= x0 && pppIncome <= x1) {
+        const t = (Math.log(pppIncome) - Math.log(x0)) / (Math.log(x1) - Math.log(x0));
+        return y0 + t * (y1 - y0);
+      }
+    }
+    return last[1];
+  }
+
+  function bandFromP(p) {
+    if (p == null) return { key: "—", label: "—" };
+    if (p < 40) return { key: "Stretched", label: "Stretched" };
+    if (p < 70) return { key: "Normal", label: "Normal local life" };
+    if (p < 90) return { key: "Comfortable", label: "Comfortable" };
+    if (p < 99) return { key: "Affluent", label: "Affluent" };
+    return { key: "King", label: "Locally king" };
+  }
+
+  function bandRank(key) {
+    return { Stretched: 0, Normal: 1, Comfortable: 2, Affluent: 3, King: 4 }[key] ?? -1;
+  }
+
+  function fmtMoney(n, currency) {
+    if (n == null || !isFinite(n)) return "—";
+    const abs = Math.abs(n);
+    let digits = abs >= 1000 ? 0 : abs >= 100 ? 1 : 2;
+    const s = n.toLocaleString("en-US", { maximumFractionDigits: digits, minimumFractionDigits: 0 });
+    return currency && currency !== "LCU" ? `${s} ${currency}` : s;
+  }
+
+  function fmtInt(n) {
+    if (n == null || !isFinite(n)) return "—";
+    return Math.round(n).toLocaleString("en-US");
+  }
+
+  function topLabel(p) {
+    // "est. top X%" where X = 100 - p, integer display
+    if (p == null) return "—";
+    const top = Math.max(0.1, 100 - p);
+    const shown = top >= 10 ? Math.round(top) : (top >= 1 ? Math.round(top * 10) / 10 : Math.round(top * 10) / 10);
+    return `est. top ${shown}%`;
+  }
+
+  function pctileLabel(p) {
+    if (p == null) return "—";
+    return `est. ${Math.round(p)}th percentile`;
+  }
+
+  // ---------- State ----------
+  let DATA = null;
+  let byIso = {};
+  let rowsCache = [];
+  let sortKey = "pct";
+  let sortDir = -1; // default highest local percentile
+
+  const el = (id) => document.getElementById(id);
+
+  function showError(msg) {
+    el("status").textContent = msg;
+    el("status").classList.remove("hidden");
+    el("results").classList.add("hidden");
+  }
+
+  function clearError() {
+    el("status").classList.add("hidden");
+  }
+
+  function populateSelects() {
+    const home = el("home");
+    const dest = el("dest");
+    const countries = DATA.countries.slice().sort((a, b) => a.name.localeCompare(b.name));
+    home.innerHTML = "";
+    dest.innerHTML = '<option value="">All countries</option>';
+    for (const c of countries) {
+      const o1 = document.createElement("option");
+      o1.value = c.iso3;
+      o1.textContent = `${c.name} (${c.iso3})`;
+      home.appendChild(o1);
+      const o2 = document.createElement("option");
+      o2.value = c.iso3;
+      o2.textContent = `${c.name} (${c.iso3})`;
+      dest.appendChild(o2);
+    }
+    if (byIso.USA) home.value = "USA";
+    else if (countries[0]) home.value = countries[0].iso3;
+
+    const regions = [...new Set(countries.map(c => c.region).filter(Boolean))].sort();
+    const fr = el("fRegion");
+    fr.innerHTML = '<option value="">All regions</option>';
+    for (const r of regions) {
+      const o = document.createElement("option");
+      o.value = r;
+      o.textContent = r;
+      fr.appendChild(o);
+    }
+  }
+
+  function updateCurrencyHint() {
+    const home = byIso[el("home").value];
+    const cur = home ? home.currency : "LCU";
+    el("currencyHint").textContent =
+      `Income is annual, in the home country's currency (${cur}).`;
+  }
+
+  function readParams() {
+    const q = new URLSearchParams(location.search);
+    if (q.get("income")) el("income").value = q.get("income");
+    if (q.get("type") === "gross" || q.get("type") === "net") el("itype").value = q.get("type");
+    if (q.get("home") && byIso[q.get("home")]) el("home").value = q.get("home");
+    if (q.get("dest")) {
+      if (q.get("dest") === "" || byIso[q.get("dest")]) el("dest").value = q.get("dest");
+    }
+  }
+
+  function writeParams() {
+    const q = new URLSearchParams();
+    q.set("income", String(el("income").value || ""));
+    q.set("home", el("home").value);
+    q.set("type", el("itype").value);
+    if (el("dest").value) q.set("dest", el("dest").value);
+    const url = location.pathname + "?" + q.toString();
+    history.replaceState(null, "", url);
+  }
+
+  function computeRow(home, dest, pppIncome, incomeLocal) {
+    const stretch = home.pli_us / dest.pli_us;
+    const equiv = pppIncome * dest.ppp;
+    const incomeUsd = incomeLocal / home.fx;
+    const fxLocal = incomeUsd * dest.fx;
+    const p = localPercentile(pppIncome, dest.mean_income_ppp, dest.gini);
+    const band = bandFromP(p);
+    return {
+      iso3: dest.iso3,
+      name: dest.name,
+      region: dest.region,
+      currency: dest.currency,
+      pli: dest.pli_us * 100,
+      pli_us: dest.pli_us,
+      stretch,
+      equiv,
+      fxLocal,
+      pct: p,
+      band: band.key,
+      bandLabel: band.label,
+      year: dest.ppp_year,
+      gini_imputed: dest.gini_imputed,
+      cheaper: dest.pli_us < home.pli_us,
+    };
+  }
+
+  function recompute() {
+    if (!DATA) return;
+    clearError();
+    const incomeLocal = parseFloat(el("income").value);
+    const home = byIso[el("home").value];
+    if (!home) { showError("Select a home country."); return; }
+    if (!(incomeLocal > 0)) { showError("Enter a positive annual income."); return; }
+
+    updateCurrencyHint();
+    writeParams();
+
+    const pppIncome = incomeLocal / home.ppp;
+    const homeP = localPercentile(pppIncome, home.mean_income_ppp, home.gini);
+    const homeBand = bandFromP(homeP);
+    const globP = globalPercentile(pppIncome);
+    const itype = el("itype").value === "gross" ? "gross" : "net";
+
+    // Home card
+    el("homeCard").innerHTML = `
+      <h2>Home · ${escapeHtml(home.name)}</h2>
+      <div class="metric"><div class="k">Income (local)</div><div class="v">${fmtMoney(incomeLocal, home.currency)}</div>
+        <div class="s">${itype}</div></div>
+      <div class="metric"><div class="k">Income (PPP Int$)</div><div class="v">Int$${fmtInt(pppIncome)}</div></div>
+      <div class="metric"><div class="k">Price level vs US</div><div class="v">${fmtInt(home.pli_us * 100)} <span style="color:var(--muted);font-size:0.8rem;font-weight:400">(US=100)</span></div></div>
+      <div class="metric"><div class="k">Home percentile</div><div class="v">${pctileLabel(homeP)} <span class="band-pill band-${homeBand.key}">${homeBand.label}</span></div>
+        <div class="s">${home.gini_imputed ? "Gini imputed · " : ""}est.</div></div>
+      <div class="metric"><div class="k">Global (rough)</div><div class="v" style="font-size:0.95rem;font-weight:500;color:var(--muted)">${topLabel(globP)}</div></div>
+    `;
+
+    // All rows
+    rowsCache = DATA.countries.map(c => computeRow(home, c, pppIncome, incomeLocal));
+
+    const destIso = el("dest").value;
+    const destCard = el("destCard");
+    if (destIso && byIso[destIso]) {
+      const dest = byIso[destIso];
+      const r = computeRow(home, dest, pppIncome, incomeLocal);
+      const vsHome = ((1 - dest.pli_us / home.pli_us) * 100);
+      destCard.classList.remove("hidden");
+      destCard.innerHTML = `
+        <h2>Destination · ${escapeHtml(dest.name)}</h2>
+        <div class="metric"><div class="k">PPP equivalent (same lifestyle)</div><div class="v">${fmtMoney(r.equiv, dest.currency)}</div>
+          <div class="s">What you need to live the same</div></div>
+        <div class="metric"><div class="k">FX / wire-transfer view</div><div class="v" style="font-size:1rem">${fmtMoney(r.fxLocal, dest.currency)}</div>
+          <div class="s">What your paycheck becomes if you just convert cash</div></div>
+        <div class="metric"><div class="k">Price level</div><div class="v">${fmtInt(r.pli)} vs US · ${fmtInt(dest.pli_us / home.pli_us * 100)} vs home</div></div>
+        <div class="metric"><div class="k">Stretch factor</div><div class="v">${r.stretch.toFixed(2)}×</div>
+          <div class="s">${r.stretch >= 1 ? `Money goes ${r.stretch.toFixed(2)}× further` : `Money goes ${(1/r.stretch).toFixed(2)}× less far`} ${vsHome > 0 ? `(${fmtInt(vsHome)}% cheaper)` : vsHome < 0 ? `(${fmtInt(-vsHome)}% more expensive)` : ""}</div></div>
+        <div class="metric"><div class="k">Local percentile</div><div class="v">${pctileLabel(r.pct)} <span class="band-pill band-${r.band}">${r.bandLabel}</span></div>
+          <div class="s">${r.gini_imputed ? "Gini imputed · " : ""}est.</div></div>
+        <div class="metric"><div class="s">In ${escapeHtml(dest.name)} this is locally ${r.bandLabel} (${topLabel(r.pct)}).</div></div>
+      `;
+    } else {
+      destCard.innerHTML = `
+        <h2>Destination</h2>
+        <div class="metric"><div class="s">Pick a destination to compare PPP equivalent vs FX conversion, or browse the full ranked table below.</div></div>
+      `;
+    }
+
+    // Summary paragraph
+    const pickExamples = () => {
+      const ind = rowsCache.find(r => r.iso3 === "IND");
+      const che = rowsCache.find(r => r.iso3 === "CHE");
+      const parts = [];
+      if (destIso && byIso[destIso]) {
+        const r = rowsCache.find(x => x.iso3 === destIso);
+        if (r) parts.push(`The same purchasing power is locally ${r.bandLabel} in ${r.name} (${topLabel(r.pct)}).`);
+      } else {
+        if (ind) parts.push(`The same purchasing power is locally ${ind.bandLabel} in India (${topLabel(ind.pct)})`);
+        if (che) parts.push(`${ind ? "and" : "The same purchasing power is"} ${che.bandLabel} in Switzerland (${topLabel(che.pct)}).`);
+        else if (ind) parts[parts.length - 1] += ".";
+      }
+      return parts.join(" ");
+    };
+
+    const incomeStr = home.currency !== "LCU"
+      ? `${fmtInt(incomeLocal)} ${home.currency}`
+      : fmtInt(incomeLocal);
+    // Prefer $ for USD
+    const lead = home.currency === "USD"
+      ? `$${fmtInt(incomeLocal)} ${itype}`
+      : `${incomeStr} ${itype}`;
+
+    el("summaryText").textContent =
+      `${lead} in ${home.name} is about Int$${fmtInt(pppIncome)}. ` +
+      `That is ${topLabel(homeP)} at home (${homeBand.label}) and roughly global ${topLabel(globP).replace("est. ", "")}. ` +
+      pickExamples();
+
+    // Tiles
+    const comfortPlus = rowsCache
+      .filter(r => bandRank(r.band) >= 2)
+      .slice()
+      .sort((a, b) => a.pli_us - b.pli_us)
+      .slice(0, 5);
+    el("cheap5").innerHTML = comfortPlus.map(r =>
+      `<li>${escapeHtml(r.name)} · PLI ${fmtInt(r.pli)} · ${r.band} · ${topLabel(r.pct)}</li>`
+    ).join("") || "<li>None</li>";
+
+    const top5 = rowsCache.slice().sort((a, b) => (b.pct || 0) - (a.pct || 0)).slice(0, 5);
+    el("rank5").innerHTML = top5.map(r =>
+      `<li>${escapeHtml(r.name)} · ${topLabel(r.pct)} · <span class="band-pill band-${r.band}">${r.band}</span></li>`
+    ).join("");
+
+    renderTable();
+    el("results").classList.remove("hidden");
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function filteredRows() {
+    const region = el("fRegion").value;
+    const bandF = el("fBand").value;
+    const search = (el("fSearch").value || "").trim().toLowerCase();
+    const cheaper = el("fCheaper").checked;
+    return rowsCache.filter(r => {
+      if (region && r.region !== region) return false;
+      if (cheaper && !r.cheaper) return false;
+      if (bandF === "Comfortable+" && bandRank(r.band) < 2) return false;
+      if (bandF === "Affluent+" && bandRank(r.band) < 3) return false;
+      if (bandF === "King" && r.band !== "King") return false;
+      if (search && !(`${r.name} ${r.iso3}`.toLowerCase().includes(search))) return false;
+      return true;
+    });
+  }
+
+  function renderTable() {
+    let rows = filteredRows();
+    const key = sortKey;
+    const dir = sortDir;
+    rows.sort((a, b) => {
+      let av = a[key], bv = b[key];
+      if (key === "band") { av = bandRank(a.band); bv = bandRank(b.band); }
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      if (typeof av === "string") return dir * av.localeCompare(bv);
+      return dir * (av - bv);
+    });
+
+    document.querySelectorAll("thead th").forEach(th => {
+      th.classList.toggle("sorted", th.dataset.sort === sortKey);
+    });
+
+    const tb = el("tbody");
+    const html = rows.map(r => {
+      const barW = Math.min(100, (r.pli / 160) * 100);
+      const crown = r.band === "King" ? " ♛" : "";
+      const title = r.gini_imputed ? ' title="Gini imputed"' : "";
+      return `<tr class="row-${r.band}">
+        <td>${escapeHtml(r.name)}<span class="iso">${r.iso3}</span>${crown}</td>
+        <td><span class="pli-bar"><span class="fill" style="width:${barW}%"></span><span class="tick"></span></span>${fmtInt(r.pli)}</td>
+        <td>${r.stretch.toFixed(2)}×</td>
+        <td>${fmtMoney(r.equiv, r.currency)}</td>
+        <td${title}>${r.pct == null ? "—" : Math.round(r.pct)}${r.gini_imputed ? " *" : ""}</td>
+        <td><span class="band-pill band-${r.band}">${r.band === "King" ? "Locally king" : r.band === "Normal" ? "Normal local life" : r.band}</span></td>
+        <td>${r.year || "—"}</td>
+      </tr>`;
+    }).join("");
+    tb.innerHTML = html || `<tr><td colspan="7" style="color:var(--muted);padding:16px">No countries match filters.</td></tr>`;
+  }
+
+  // ---------- Selftest ----------
+  window.__kingSelftest = function () {
+    const fails = [];
+    if (!DATA) { console.log("FAIL: no data"); return false; }
+    const usa = byIso.USA, ind = byIso.IND, che = byIso.CHE;
+    if (!usa || usa.pli_us < 0.95 || usa.pli_us > 1.05) fails.push(`USA pli_us=${usa && usa.pli_us}`);
+    if (!ind || !(ind.pli_us < 0.40)) fails.push(`IND pli_us=${ind && ind.pli_us}`);
+    if (!che || !(che.pli_us > 1.10)) fails.push(`CHE pli_us=${che && che.pli_us}`);
+    if (usa && ind && che) {
+      const ppp = 80000 / usa.ppp;
+      const pInd = localPercentile(ppp, ind.mean_income_ppp, ind.gini);
+      const pChe = localPercentile(ppp, che.mean_income_ppp, che.gini);
+      if (!(pInd > pChe)) fails.push(`US$80k IND pct ${pInd} not > CHE ${pChe}`);
+    }
+    if (fails.length) {
+      console.log("FAIL", fails);
+      return false;
+    }
+    console.log("PASS");
+    return true;
+  };
+
+  // ---------- Live WB fallback (optional) ----------
+  async function liveFetchFallback() {
+    // Minimal in-browser rebuild is heavy; show clear message instead if snapshot missing.
+    throw new Error("snapshot missing");
+  }
+
+  async function loadData() {
+    try {
+      const res = await fetch("./data/countries.json");
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      DATA = await res.json();
+    } catch (e) {
+      try {
+        await liveFetchFallback();
+      } catch (_) {
+        showError("Drop data/countries.json next to index.html");
+        return;
+      }
+    }
+    byIso = {};
+    for (const c of DATA.countries) byIso[c.iso3] = c;
+    populateSelects();
+    readParams();
+    updateCurrencyHint();
+    el("metaNote").textContent =
+      `Snapshot: ${DATA.meta.generated_at} · ${DATA.countries.length} countries · ${DATA.meta.source}`;
+    recompute();
+  }
+
+  // Events
+  ["income", "itype", "home", "dest"].forEach(id => {
+    el(id).addEventListener("change", recompute);
+    el(id).addEventListener("input", () => {
+      if (id === "income" || id === "home") {
+        if (id === "home") updateCurrencyHint();
+        recompute();
+      }
+    });
+  });
+  el("rankBtn").addEventListener("click", recompute);
+  ["fRegion", "fBand", "fCheaper"].forEach(id => el(id).addEventListener("change", renderTable));
+  el("fSearch").addEventListener("input", renderTable);
+  document.querySelectorAll("thead th[data-sort]").forEach(th => {
+    th.addEventListener("click", () => {
+      const k = th.dataset.sort;
+      if (sortKey === k) sortDir *= -1;
+      else { sortKey = k; sortDir = (k === "name" || k === "band") ? 1 : -1; }
+      // default for pct is highest first; for pli cheapest first when newly selected
+      if (k === "pli" && sortKey === k) { /* keep */ }
+      renderTable();
+    });
+  });
+  el("copyBtn").addEventListener("click", async () => {
+    const t = el("summaryText").textContent;
+    try {
+      await navigator.clipboard.writeText(t);
+      el("copyBtn").textContent = "Copied";
+      setTimeout(() => { el("copyBtn").textContent = "Copy summary"; }, 1200);
+    } catch (_) {
+      el("copyBtn").textContent = "Copy failed";
+    }
+  });
+
+  loadData();
+})();
+</script>
+</body>
+</html>
