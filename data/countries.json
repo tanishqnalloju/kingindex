@@ -1,8 +1,61 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T10:09:41Z",
-    "source": "World Bank WDI, most recent available per indicator",
-    "notes": "Price levels use private-consumption PPP / official FX. Percentiles are lognormal approximations, not PIP microdata."
+    "generated_at": "2026-09-20T12:29:35Z",
+    "source": "World Bank WDI + PIP medians (national, latest non-interpolated preferred)",
+    "notes": "Price levels use private-consumption PPP / official FX. Core metric is multiple of local median from PIP (annualized $/day × 365). No Gini imputation for the Y axis.",
+    "pip_endpoint": "https://api.worldbank.org/pip/v1/pip",
+    "ppp_base_year": 2021,
+    "exclusions": [
+      {
+        "iso3": "TKM",
+        "reason": "Collapsed official FX (junk PLI)"
+      },
+      {
+        "iso3": "ZWE",
+        "reason": "Collapsed official FX (junk PLI)"
+      },
+      {
+        "iso3": "LBR",
+        "reason": "Collapsed official FX (junk PLI)"
+      },
+      {
+        "iso3": "ARG",
+        "reason": "Hyperinflation / FX collapse (PLI far below floor)"
+      },
+      {
+        "iso3": "VEN",
+        "reason": "Missing or broken FX"
+      },
+      {
+        "iso3": "AFG",
+        "reason": "Conflict / survey reliability"
+      },
+      {
+        "iso3": "SYR",
+        "reason": "Conflict"
+      },
+      {
+        "iso3": "YEM",
+        "reason": "Conflict"
+      },
+      {
+        "iso3": "SSD",
+        "reason": "Conflict"
+      },
+      {
+        "iso3": "SOM",
+        "reason": "Conflict / missing reliable series"
+      },
+      {
+        "iso3": "ERI",
+        "reason": "Very old / unreliable survey series"
+      },
+      {
+        "iso3": "PRK",
+        "reason": "No usable survey median"
+      }
+    ],
+    "old_survey_cutoff": 2005
   },
   "countries": [
     {
@@ -23,7 +76,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 108785
+      "pop": 108785,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "AFG",
@@ -43,7 +103,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 43844111
+      "pop": 43844111,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Conflict / survey reliability"
     },
     {
       "iso3": "AGO",
@@ -63,7 +130,14 @@
       "gini": 51.3,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 39040039
+      "pop": 39040039,
+      "median_ppp_annual": 1416.02,
+      "median_ppp_daily": 3.8795,
+      "welfare_type": "consumption",
+      "survey_year": 2018.17,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ALB",
@@ -83,7 +157,14 @@
       "gini": 29.4,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 2349580
+      "pop": 2349580,
+      "median_ppp_annual": 4686.09,
+      "median_ppp_daily": 12.8386,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "AND",
@@ -103,7 +184,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 82904
+      "pop": 82904,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ARE",
@@ -123,7 +211,14 @@
       "gini": 26.4,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 11513149
+      "pop": 11513149,
+      "median_ppp_annual": 27929.36,
+      "median_ppp_daily": 76.5188,
+      "welfare_type": "income",
+      "survey_year": 2018.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ARG",
@@ -143,7 +238,14 @@
       "gini": 42.4,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 45851378
+      "pop": 45851378,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Hyperinflation / FX collapse (PLI far below floor); Unreliable PLI / PPP / FX"
     },
     {
       "iso3": "ARM",
@@ -163,7 +265,14 @@
       "gini": 27.4,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 3086700
+      "pop": 3086700,
+      "median_ppp_annual": 3119.14,
+      "median_ppp_daily": 8.5456,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ATG",
@@ -183,7 +292,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 94209
+      "pop": 94209,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "AUS",
@@ -203,7 +319,14 @@
       "gini": 33.8,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 27614411
+      "pop": 27614411,
+      "median_ppp_annual": 21792.91,
+      "median_ppp_daily": 59.7066,
+      "welfare_type": "income",
+      "survey_year": 2020.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "AUT",
@@ -223,7 +346,14 @@
       "gini": 31.2,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 9208163
+      "pop": 9208163,
+      "median_ppp_annual": 26075.42,
+      "median_ppp_daily": 71.4395,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "AZE",
@@ -243,7 +373,14 @@
       "gini": 26.6,
       "gini_year": 2005,
       "gini_imputed": false,
-      "pop": 10246996
+      "pop": 10246996,
+      "median_ppp_annual": 3412.57,
+      "median_ppp_daily": 9.3495,
+      "welfare_type": "consumption",
+      "survey_year": 2005.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BDI",
@@ -263,7 +400,14 @@
       "gini": 37.5,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 14390003
+      "pop": 14390003,
+      "median_ppp_annual": 732.7,
+      "median_ppp_daily": 2.0074,
+      "welfare_type": "consumption",
+      "survey_year": 2020.15,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BEL",
@@ -283,7 +427,14 @@
       "gini": 26.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 11941781
+      "pop": 11941781,
+      "median_ppp_annual": 22953.83,
+      "median_ppp_daily": 62.8872,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BEN",
@@ -303,7 +454,14 @@
       "gini": 34.4,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 14814460
+      "pop": 14814460,
+      "median_ppp_annual": 1533.04,
+      "median_ppp_daily": 4.2001,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BFA",
@@ -323,7 +481,14 @@
       "gini": 37.4,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 24074580
+      "pop": 24074580,
+      "median_ppp_annual": 1231.4,
+      "median_ppp_daily": 3.3737,
+      "welfare_type": "consumption",
+      "survey_year": 2021.67,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BGD",
@@ -343,7 +508,14 @@
       "gini": 30.9,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 175686899
+      "pop": 175686899,
+      "median_ppp_annual": 2253.84,
+      "median_ppp_daily": 6.1749,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BGR",
@@ -363,7 +535,14 @@
       "gini": 39.5,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 6433302
+      "pop": 6433302,
+      "median_ppp_annual": 11016.69,
+      "median_ppp_daily": 30.1827,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BHR",
@@ -383,7 +562,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 1600366
+      "pop": 1600366,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BHS",
@@ -403,7 +589,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 403033
+      "pop": 403033,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BIH",
@@ -423,7 +616,14 @@
       "gini": 30.3,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 3140095
+      "pop": 3140095,
+      "median_ppp_annual": 5764.48,
+      "median_ppp_daily": 15.7931,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BLR",
@@ -443,7 +643,14 @@
       "gini": 24.4,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 9085991
+      "pop": 9085991,
+      "median_ppp_annual": 6710.63,
+      "median_ppp_daily": 18.3853,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BLZ",
@@ -463,7 +670,14 @@
       "gini": 39.9,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 422924
+      "pop": 422924,
+      "median_ppp_annual": 5452.26,
+      "median_ppp_daily": 14.9377,
+      "welfare_type": "consumption",
+      "survey_year": 2018.2,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BMU",
@@ -483,7 +697,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 64555
+      "pop": 64555,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BOL",
@@ -503,7 +724,14 @@
       "gini": 40.9,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 12581843
+      "pop": 12581843,
+      "median_ppp_annual": 6138.97,
+      "median_ppp_daily": 16.8191,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BRA",
@@ -523,7 +751,14 @@
       "gini": 50.3,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 212812405
+      "pop": 212812405,
+      "median_ppp_annual": 6172.92,
+      "median_ppp_daily": 16.9121,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BRB",
@@ -543,7 +778,14 @@
       "gini": 34.1,
       "gini_year": 2016,
       "gini_imputed": false,
-      "pop": 282623
+      "pop": 282623,
+      "median_ppp_annual": 5653.89,
+      "median_ppp_daily": 15.4901,
+      "welfare_type": "consumption",
+      "survey_year": 2016.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BRN",
@@ -563,7 +805,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 466330
+      "pop": 466330,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BTN",
@@ -583,7 +832,14 @@
       "gini": 28.5,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 796682
+      "pop": 796682,
+      "median_ppp_annual": 6018.7,
+      "median_ppp_daily": 16.4896,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "BWA",
@@ -603,7 +859,14 @@
       "gini": 54.9,
       "gini_year": 2015,
       "gini_imputed": false,
-      "pop": 2562122
+      "pop": 2562122,
+      "median_ppp_annual": 2129.52,
+      "median_ppp_daily": 5.8343,
+      "welfare_type": "consumption",
+      "survey_year": 2015.85,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CAF",
@@ -623,7 +886,14 @@
       "gini": 43.0,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 5513282
+      "pop": 5513282,
+      "median_ppp_annual": 702.48,
+      "median_ppp_daily": 1.9246,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CAN",
@@ -643,7 +913,14 @@
       "gini": 31.5,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 41651653
+      "pop": 41651653,
+      "median_ppp_annual": 23623.27,
+      "median_ppp_daily": 64.7213,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CHE",
@@ -663,7 +940,14 @@
       "gini": 33.8,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 9092436
+      "pop": 9092436,
+      "median_ppp_annual": 26385.49,
+      "median_ppp_daily": 72.289,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CHL",
@@ -683,7 +967,14 @@
       "gini": 43.0,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 19859921
+      "pop": 19859921,
+      "median_ppp_annual": 8968.31,
+      "median_ppp_daily": 24.5707,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CHN",
@@ -703,7 +994,14 @@
       "gini": 36.0,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 1406585000
+      "pop": 1406585000,
+      "median_ppp_annual": 4877.57,
+      "median_ppp_daily": 13.3632,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CIV",
@@ -723,7 +1021,14 @@
       "gini": 35.3,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 32711547
+      "pop": 32711547,
+      "median_ppp_annual": 1737.0,
+      "median_ppp_daily": 4.7589,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CMR",
@@ -743,7 +1048,14 @@
       "gini": 42.2,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 29879337
+      "pop": 29879337,
+      "median_ppp_annual": 1819.67,
+      "median_ppp_daily": 4.9854,
+      "welfare_type": "consumption",
+      "survey_year": 2021.67,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "COD",
@@ -763,7 +1075,14 @@
       "gini": 44.7,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 112832473
+      "pop": 112832473,
+      "median_ppp_annual": 480.34,
+      "median_ppp_daily": 1.316,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "COG",
@@ -783,7 +1102,14 @@
       "gini": 48.9,
       "gini_year": 2011,
       "gini_imputed": false,
-      "pop": 6484437
+      "pop": 6484437,
+      "median_ppp_annual": 1374.15,
+      "median_ppp_daily": 3.7648,
+      "welfare_type": "consumption",
+      "survey_year": 2011.67,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "COL",
@@ -803,7 +1129,14 @@
       "gini": 54.4,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 53425635
+      "pop": 53425635,
+      "median_ppp_annual": 4116.62,
+      "median_ppp_daily": 11.2784,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "COM",
@@ -823,7 +1156,14 @@
       "gini": 30.3,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 882847
+      "pop": 882847,
+      "median_ppp_annual": 2364.65,
+      "median_ppp_daily": 6.4785,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CPV",
@@ -843,7 +1183,14 @@
       "gini": 42.4,
       "gini_year": 2015,
       "gini_imputed": false,
-      "pop": 527326
+      "pop": 527326,
+      "median_ppp_annual": 2254.71,
+      "median_ppp_daily": 6.1773,
+      "welfare_type": "consumption",
+      "survey_year": 2015.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CRI",
@@ -863,7 +1210,14 @@
       "gini": 45.5,
       "gini_year": 2025,
       "gini_imputed": false,
-      "pop": 5152950
+      "pop": 5152950,
+      "median_ppp_annual": 8537.24,
+      "median_ppp_daily": 23.3897,
+      "welfare_type": "income",
+      "survey_year": 2025.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CUW",
@@ -883,7 +1237,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 156263
+      "pop": 156263,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CYM",
@@ -903,7 +1264,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 75844
+      "pop": 75844,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CYP",
@@ -923,7 +1291,14 @@
       "gini": 31.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 1370754
+      "pop": 1370754,
+      "median_ppp_annual": 19030.99,
+      "median_ppp_daily": 52.1397,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "CZE",
@@ -943,7 +1318,14 @@
       "gini": 25.7,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 10886878
+      "pop": 10886878,
+      "median_ppp_annual": 14260.22,
+      "median_ppp_daily": 39.0691,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "DEU",
@@ -963,7 +1345,14 @@
       "gini": 33.7,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 83491249
+      "pop": 83491249,
+      "median_ppp_annual": 23424.71,
+      "median_ppp_daily": 64.1773,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "DJI",
@@ -983,7 +1372,14 @@
       "gini": 41.6,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 1184076
+      "pop": 1184076,
+      "median_ppp_annual": 1716.78,
+      "median_ppp_daily": 4.7035,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "DMA",
@@ -1003,7 +1399,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 65871
+      "pop": 65871,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "DNK",
@@ -1023,7 +1426,14 @@
       "gini": 29.9,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 6009169
+      "pop": 6009169,
+      "median_ppp_annual": 22163.79,
+      "median_ppp_daily": 60.7227,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "DOM",
@@ -1043,7 +1453,14 @@
       "gini": 39.0,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 11520487
+      "pop": 11520487,
+      "median_ppp_annual": 6379.36,
+      "median_ppp_daily": 17.4777,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "DZA",
@@ -1063,7 +1480,14 @@
       "gini": 27.6,
       "gini_year": 2011,
       "gini_imputed": false,
-      "pop": 47435312
+      "pop": 47435312,
+      "median_ppp_annual": 3326.72,
+      "median_ppp_daily": 9.1143,
+      "welfare_type": "consumption",
+      "survey_year": 2011.17,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ECU",
@@ -1083,7 +1507,14 @@
       "gini": 45.9,
       "gini_year": 2025,
       "gini_imputed": false,
-      "pop": 18289896
+      "pop": 18289896,
+      "median_ppp_annual": 4635.83,
+      "median_ppp_daily": 12.7009,
+      "welfare_type": "income",
+      "survey_year": 2025.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "EGY",
@@ -1103,7 +1534,14 @@
       "gini": 28.5,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 118365995
+      "pop": 118365995,
+      "median_ppp_annual": 2777.98,
+      "median_ppp_daily": 7.6109,
+      "welfare_type": "consumption",
+      "survey_year": 2021.77,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ERI",
@@ -1123,7 +1561,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 3607003
+      "pop": 3607003,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Very old / unreliable survey series"
     },
     {
       "iso3": "ESP",
@@ -1143,7 +1588,14 @@
       "gini": 33.4,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 49355143
+      "pop": 49355143,
+      "median_ppp_annual": 17266.07,
+      "median_ppp_daily": 47.3043,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "EST",
@@ -1163,7 +1615,14 @@
       "gini": 30.7,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 1366475
+      "pop": 1366475,
+      "median_ppp_annual": 13331.19,
+      "median_ppp_daily": 36.5238,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ETH",
@@ -1183,7 +1642,14 @@
       "gini": 31.1,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 135472051
+      "pop": 135472051,
+      "median_ppp_annual": 1272.68,
+      "median_ppp_daily": 3.4868,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "FIN",
@@ -1203,7 +1669,14 @@
       "gini": 27.4,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 5646436
+      "pop": 5646436,
+      "median_ppp_annual": 20614.25,
+      "median_ppp_daily": 56.4774,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "FJI",
@@ -1223,7 +1696,14 @@
       "gini": 30.7,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 933154
+      "pop": 933154,
+      "median_ppp_annual": 2614.71,
+      "median_ppp_daily": 7.1636,
+      "welfare_type": "consumption",
+      "survey_year": 2019.15,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "FRA",
@@ -1243,7 +1723,14 @@
       "gini": 31.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 68720337
+      "pop": 68720337,
+      "median_ppp_annual": 20881.83,
+      "median_ppp_daily": 57.2105,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "FRO",
@@ -1263,7 +1750,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 54900
+      "pop": 54900,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "FSM",
@@ -1283,7 +1777,14 @@
       "gini": 40.1,
       "gini_year": 2013,
       "gini_imputed": false,
-      "pop": 113683
+      "pop": 113683,
+      "median_ppp_annual": 1702.54,
+      "median_ppp_daily": 4.6645,
+      "welfare_type": "consumption",
+      "survey_year": 2013.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GAB",
@@ -1303,7 +1804,14 @@
       "gini": 38.0,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 2593130
+      "pop": 2593130,
+      "median_ppp_annual": 4127.27,
+      "median_ppp_daily": 11.3076,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GBR",
@@ -1323,7 +1831,14 @@
       "gini": 32.4,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 69487000
+      "pop": 69487000,
+      "median_ppp_annual": 19912.03,
+      "median_ppp_daily": 54.5535,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GEO",
@@ -1343,7 +1858,14 @@
       "gini": 33.9,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 3935766
+      "pop": 3935766,
+      "median_ppp_annual": 3201.6,
+      "median_ppp_daily": 8.7715,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GHA",
@@ -1363,7 +1885,14 @@
       "gini": 43.5,
       "gini_year": 2016,
       "gini_imputed": false,
-      "pop": 35064272
+      "pop": 35064272,
+      "median_ppp_annual": 1358.79,
+      "median_ppp_daily": 3.7227,
+      "welfare_type": "consumption",
+      "survey_year": 2016.75,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GIN",
@@ -1383,7 +1912,14 @@
       "gini": 29.6,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 15099727
+      "pop": 15099727,
+      "median_ppp_annual": 2063.89,
+      "median_ppp_daily": 5.6545,
+      "welfare_type": "consumption",
+      "survey_year": 2018.5,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GMB",
@@ -1403,7 +1939,14 @@
       "gini": 38.8,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 2822093
+      "pop": 2822093,
+      "median_ppp_annual": 1772.95,
+      "median_ppp_daily": 4.8574,
+      "welfare_type": "consumption",
+      "survey_year": 2020.08,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GNB",
@@ -1423,7 +1966,14 @@
       "gini": 33.4,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 2249515
+      "pop": 2249515,
+      "median_ppp_annual": 1259.07,
+      "median_ppp_daily": 3.4495,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GNQ",
@@ -1443,7 +1993,14 @@
       "gini": 38.5,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 1938431
+      "pop": 1938431,
+      "median_ppp_annual": 2604.02,
+      "median_ppp_daily": 7.1343,
+      "welfare_type": "consumption",
+      "survey_year": 2022.61,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GRC",
@@ -1463,7 +2020,14 @@
       "gini": 33.4,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 10413962
+      "pop": 10413962,
+      "median_ppp_annual": 10552.81,
+      "median_ppp_daily": 28.9118,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GRD",
@@ -1483,7 +2047,14 @@
       "gini": 43.8,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 117303
+      "pop": 117303,
+      "median_ppp_annual": 5081.68,
+      "median_ppp_daily": 13.9224,
+      "welfare_type": "consumption",
+      "survey_year": 2018.36,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GRL",
@@ -1503,7 +2074,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 56831
+      "pop": 56831,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GTM",
@@ -1523,7 +2101,14 @@
       "gini": 45.2,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 18687881
+      "pop": 18687881,
+      "median_ppp_annual": 3186.63,
+      "median_ppp_daily": 8.7305,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "GUY",
@@ -1543,7 +2128,14 @@
       "gini": 45.1,
       "gini_year": 1998,
       "gini_imputed": false,
-      "pop": 835986
+      "pop": 835986,
+      "median_ppp_annual": 2812.29,
+      "median_ppp_daily": 7.7049,
+      "welfare_type": "income",
+      "survey_year": 1998.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Survey year 1998.0 older than 2005"
     },
     {
       "iso3": "HKG",
@@ -1563,7 +2155,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 7498900
+      "pop": 7498900,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "HND",
@@ -1583,7 +2182,14 @@
       "gini": 45.7,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 11005850
+      "pop": 11005850,
+      "median_ppp_annual": 3048.3,
+      "median_ppp_daily": 8.3515,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "HRV",
@@ -1603,7 +2209,14 @@
       "gini": 30.1,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 3876200
+      "pop": 3876200,
+      "median_ppp_annual": 13408.24,
+      "median_ppp_daily": 36.7349,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "HTI",
@@ -1623,7 +2236,14 @@
       "gini": 41.1,
       "gini_year": 2012,
       "gini_imputed": false,
-      "pop": 11906095
+      "pop": 11906095,
+      "median_ppp_annual": 1311.85,
+      "median_ppp_daily": 3.5941,
+      "welfare_type": "consumption",
+      "survey_year": 2012.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "HUN",
@@ -1643,7 +2263,14 @@
       "gini": 30.6,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 9514251
+      "pop": 9514251,
+      "median_ppp_annual": 8080.73,
+      "median_ppp_daily": 22.139,
+      "welfare_type": "income",
+      "survey_year": 2017.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "IDN",
@@ -1663,7 +2290,14 @@
       "gini": 34.4,
       "gini_year": 2025,
       "gini_imputed": false,
-      "pop": 285721236
+      "pop": 285721236,
+      "median_ppp_annual": 2429.44,
+      "median_ppp_daily": 6.656,
+      "welfare_type": "consumption",
+      "survey_year": 2025.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "IND",
@@ -1683,7 +2317,14 @@
       "gini": 25.5,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 1463865525
+      "pop": 1463865525,
+      "median_ppp_annual": 2020.82,
+      "median_ppp_daily": 5.5365,
+      "welfare_type": "consumption",
+      "survey_year": 2022.58,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "IRL",
@@ -1703,7 +2344,14 @@
       "gini": 29.0,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 5484367
+      "pop": 5484367,
+      "median_ppp_annual": 18427.68,
+      "median_ppp_daily": 50.4868,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "IRN",
@@ -1723,7 +2371,14 @@
       "gini": 35.9,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 92417681
+      "pop": 92417681,
+      "median_ppp_annual": 3717.89,
+      "median_ppp_daily": 10.186,
+      "welfare_type": "consumption",
+      "survey_year": 2023.23,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "IRQ",
@@ -1743,7 +2398,14 @@
       "gini": 29.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 47020774
+      "pop": 47020774,
+      "median_ppp_annual": 3974.48,
+      "median_ppp_daily": 10.889,
+      "welfare_type": "consumption",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ISL",
@@ -1763,7 +2425,14 @@
       "gini": 26.8,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 392404
+      "pop": 392404,
+      "median_ppp_annual": 22130.94,
+      "median_ppp_daily": 60.6327,
+      "welfare_type": "income",
+      "survey_year": 2019.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ISR",
@@ -1783,7 +2452,14 @@
       "gini": 38.3,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 10122800
+      "pop": 10122800,
+      "median_ppp_annual": 13681.92,
+      "median_ppp_daily": 37.4847,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ITA",
@@ -1803,7 +2479,14 @@
       "gini": 34.3,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 58915656
+      "pop": 58915656,
+      "median_ppp_annual": 17808.5,
+      "median_ppp_daily": 48.7904,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "JAM",
@@ -1823,7 +2506,14 @@
       "gini": 39.9,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 2837077
+      "pop": 2837077,
+      "median_ppp_annual": 5217.24,
+      "median_ppp_daily": 14.2938,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "JOR",
@@ -1843,7 +2533,14 @@
       "gini": 33.7,
       "gini_year": 2010,
       "gini_imputed": false,
-      "pop": 11520684
+      "pop": 11520684,
+      "median_ppp_annual": 5004.55,
+      "median_ppp_daily": 13.7111,
+      "welfare_type": "consumption",
+      "survey_year": 2010.24,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "JPN",
@@ -1863,7 +2560,14 @@
       "gini": 32.3,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 123366734
+      "pop": 123366734,
+      "median_ppp_annual": 15393.07,
+      "median_ppp_daily": 42.1728,
+      "welfare_type": "income",
+      "survey_year": 2020.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KAZ",
@@ -1883,7 +2587,14 @@
       "gini": 29.2,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 20843754
+      "pop": 20843754,
+      "median_ppp_annual": 4469.06,
+      "median_ppp_daily": 12.244,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KEN",
@@ -1903,7 +2614,14 @@
       "gini": 38.5,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 57532493
+      "pop": 57532493,
+      "median_ppp_annual": 1173.47,
+      "median_ppp_daily": 3.215,
+      "welfare_type": "consumption",
+      "survey_year": 2022.67,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KGZ",
@@ -1923,7 +2641,14 @@
       "gini": 27.5,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 7343064
+      "pop": 7343064,
+      "median_ppp_annual": 2502.7,
+      "median_ppp_daily": 6.8567,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KHM",
@@ -1943,7 +2668,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 17847982
+      "pop": 17847982,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KIR",
@@ -1963,7 +2695,14 @@
       "gini": 24.7,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 136488
+      "pop": 136488,
+      "median_ppp_annual": 2938.69,
+      "median_ppp_daily": 8.0512,
+      "welfare_type": "consumption",
+      "survey_year": 2023.42,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KNA",
@@ -1983,7 +2722,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 46922
+      "pop": 46922,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KOR",
@@ -2003,7 +2749,14 @@
       "gini": 32.9,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 51684564
+      "pop": 51684564,
+      "median_ppp_annual": 19801.8,
+      "median_ppp_daily": 54.2515,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "KWT",
@@ -2023,7 +2776,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 4865298
+      "pop": 4865298,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LAO",
@@ -2043,7 +2803,14 @@
       "gini": 34.7,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 7873046
+      "pop": 7873046,
+      "median_ppp_annual": 2252.23,
+      "median_ppp_daily": 6.1705,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LBN",
@@ -2063,7 +2830,14 @@
       "gini": 35.5,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 5849421
+      "pop": 5849421,
+      "median_ppp_annual": 2988.29,
+      "median_ppp_daily": 8.1871,
+      "welfare_type": "consumption",
+      "survey_year": 2022.8,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LBR",
@@ -2083,7 +2857,14 @@
       "gini": 35.3,
       "gini_year": 2016,
       "gini_imputed": false,
-      "pop": 5731206
+      "pop": 5731206,
+      "median_ppp_annual": 1413.21,
+      "median_ppp_daily": 3.8718,
+      "welfare_type": "consumption",
+      "survey_year": 2016.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Collapsed official FX (junk PLI); Unreliable PLI / PPP / FX"
     },
     {
       "iso3": "LBY",
@@ -2103,7 +2884,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 7458555
+      "pop": 7458555,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LCA",
@@ -2123,7 +2911,14 @@
       "gini": 43.7,
       "gini_year": 2015,
       "gini_imputed": false,
-      "pop": 180149
+      "pop": 180149,
+      "median_ppp_annual": 8468.95,
+      "median_ppp_daily": 23.2026,
+      "welfare_type": "consumption",
+      "survey_year": 2015.78,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LKA",
@@ -2143,7 +2938,14 @@
       "gini": 37.7,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 21756000
+      "pop": 21756000,
+      "median_ppp_annual": 2885.62,
+      "median_ppp_daily": 7.9058,
+      "welfare_type": "consumption",
+      "survey_year": 2019.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LSO",
@@ -2163,7 +2965,14 @@
       "gini": 44.9,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 2363325
+      "pop": 2363325,
+      "median_ppp_annual": 1306.7,
+      "median_ppp_daily": 3.58,
+      "welfare_type": "consumption",
+      "survey_year": 2017.14,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LTU",
@@ -2183,7 +2992,14 @@
       "gini": 36.0,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 2888774
+      "pop": 2888774,
+      "median_ppp_annual": 13722.43,
+      "median_ppp_daily": 37.5957,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LUX",
@@ -2203,7 +3019,14 @@
       "gini": 33.6,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 686970
+      "pop": 686970,
+      "median_ppp_annual": 32662.1,
+      "median_ppp_daily": 89.4852,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "LVA",
@@ -2223,7 +3046,14 @@
       "gini": 34.0,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 1847785
+      "pop": 1847785,
+      "median_ppp_annual": 12027.81,
+      "median_ppp_daily": 32.9529,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MAC",
@@ -2243,7 +3073,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 685900
+      "pop": 685900,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MAR",
@@ -2263,7 +3100,14 @@
       "gini": 39.5,
       "gini_year": 2013,
       "gini_imputed": false,
-      "pop": 38430770
+      "pop": 38430770,
+      "median_ppp_annual": 3078.63,
+      "median_ppp_daily": 8.4346,
+      "welfare_type": "consumption",
+      "survey_year": 2013.5,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MDA",
@@ -2283,7 +3127,14 @@
       "gini": 26.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 2360527
+      "pop": 2360527,
+      "median_ppp_annual": 4251.56,
+      "median_ppp_daily": 11.6481,
+      "welfare_type": "consumption",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MDG",
@@ -2303,7 +3154,14 @@
       "gini": 36.8,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 32740678
+      "pop": 32740678,
+      "median_ppp_annual": 817.38,
+      "median_ppp_daily": 2.2394,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MDV",
@@ -2323,7 +3181,14 @@
       "gini": 29.3,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 529676
+      "pop": 529676,
+      "median_ppp_annual": 5480.26,
+      "median_ppp_daily": 15.0144,
+      "welfare_type": "consumption",
+      "survey_year": 2019.6,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MEX",
@@ -2343,7 +3208,14 @@
       "gini": 42.6,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 131946900
+      "pop": 131946900,
+      "median_ppp_annual": 5216.51,
+      "median_ppp_daily": 14.2918,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MHL",
@@ -2363,7 +3235,14 @@
       "gini": 35.5,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 36282
+      "pop": 36282,
+      "median_ppp_annual": 3707.85,
+      "median_ppp_daily": 10.1585,
+      "welfare_type": "consumption",
+      "survey_year": 2019.5,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MKD",
@@ -2383,7 +3262,14 @@
       "gini": 33.5,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 1820909
+      "pop": 1820909,
+      "median_ppp_annual": 5664.65,
+      "median_ppp_daily": 15.5196,
+      "welfare_type": "income",
+      "survey_year": 2019.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MLI",
@@ -2403,7 +3289,14 @@
       "gini": 35.7,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 25198821
+      "pop": 25198821,
+      "median_ppp_annual": 1339.44,
+      "median_ppp_daily": 3.6697,
+      "welfare_type": "consumption",
+      "survey_year": 2021.57,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MLT",
@@ -2423,7 +3316,14 @@
       "gini": 31.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 579704
+      "pop": 579704,
+      "median_ppp_annual": 20450.55,
+      "median_ppp_daily": 56.0289,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MMR",
@@ -2443,7 +3343,14 @@
       "gini": 30.7,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 54850648
+      "pop": 54850648,
+      "median_ppp_annual": 1985.56,
+      "median_ppp_daily": 5.4399,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MNE",
@@ -2463,7 +3370,14 @@
       "gini": 34.3,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 623129
+      "pop": 623129,
+      "median_ppp_annual": 6489.01,
+      "median_ppp_daily": 17.7781,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MNG",
@@ -2483,7 +3397,14 @@
       "gini": 31.4,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 3568978
+      "pop": 3568978,
+      "median_ppp_annual": 4390.33,
+      "median_ppp_daily": 12.0283,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MOZ",
@@ -2503,7 +3424,14 @@
       "gini": 49.6,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 35631653
+      "pop": 35631653,
+      "median_ppp_annual": 539.54,
+      "median_ppp_daily": 1.4782,
+      "welfare_type": "consumption",
+      "survey_year": 2022.08,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MRT",
@@ -2523,7 +3451,14 @@
       "gini": 32.0,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 5315065
+      "pop": 5315065,
+      "median_ppp_annual": 2211.83,
+      "median_ppp_daily": 6.0598,
+      "welfare_type": "consumption",
+      "survey_year": 2019.6,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MUS",
@@ -2543,7 +3478,14 @@
       "gini": 36.8,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 1243741
+      "pop": 1243741,
+      "median_ppp_annual": 4931.88,
+      "median_ppp_daily": 13.512,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MWI",
@@ -2563,7 +3505,14 @@
       "gini": 38.5,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 22216120
+      "pop": 22216120,
+      "median_ppp_annual": 701.13,
+      "median_ppp_daily": 1.9209,
+      "welfare_type": "consumption",
+      "survey_year": 2019.31,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "MYS",
@@ -2583,7 +3532,14 @@
       "gini": 40.7,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 35977838
+      "pop": 35977838,
+      "median_ppp_annual": 10787.5,
+      "median_ppp_daily": 29.5548,
+      "welfare_type": "income",
+      "survey_year": 2021.46,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NAM",
@@ -2603,7 +3559,14 @@
       "gini": 59.1,
       "gini_year": 2015,
       "gini_imputed": false,
-      "pop": 3092816
+      "pop": 3092816,
+      "median_ppp_annual": 2264.97,
+      "median_ppp_daily": 6.2054,
+      "welfare_type": "consumption",
+      "survey_year": 2015.27,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NER",
@@ -2623,7 +3586,14 @@
       "gini": 32.9,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 27917831
+      "pop": 27917831,
+      "median_ppp_annual": 971.48,
+      "median_ppp_daily": 2.6616,
+      "welfare_type": "consumption",
+      "survey_year": 2021.5,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NGA",
@@ -2643,7 +3613,14 @@
       "gini": 33.9,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 237527782
+      "pop": 237527782,
+      "median_ppp_annual": 1236.36,
+      "median_ppp_daily": 3.3873,
+      "welfare_type": "consumption",
+      "survey_year": 2022.71,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NIC",
@@ -2663,7 +3640,14 @@
       "gini": 46.2,
       "gini_year": 2014,
       "gini_imputed": false,
-      "pop": 7007502
+      "pop": 7007502,
+      "median_ppp_annual": 3248.68,
+      "median_ppp_daily": 8.9005,
+      "welfare_type": "income",
+      "survey_year": 2014.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NLD",
@@ -2683,7 +3667,14 @@
       "gini": 25.7,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 18087633
+      "pop": 18087633,
+      "median_ppp_annual": 25216.43,
+      "median_ppp_daily": 69.0861,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NOR",
@@ -2703,7 +3694,14 @@
       "gini": 26.5,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 5610870
+      "pop": 5610870,
+      "median_ppp_annual": 28380.9,
+      "median_ppp_daily": 77.7559,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NPL",
@@ -2723,7 +3721,14 @@
       "gini": 30.0,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 29618118
+      "pop": 29618118,
+      "median_ppp_annual": 2931.83,
+      "median_ppp_daily": 8.0324,
+      "welfare_type": "consumption",
+      "survey_year": 2022.5,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NRU",
@@ -2743,7 +3748,14 @@
       "gini": 32.4,
       "gini_year": 2012,
       "gini_imputed": false,
-      "pop": 12025
+      "pop": 12025,
+      "median_ppp_annual": 2289.35,
+      "median_ppp_daily": 6.2722,
+      "welfare_type": "consumption",
+      "survey_year": 2012.69,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "NZL",
@@ -2763,7 +3775,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 5324700
+      "pop": 5324700,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "OMN",
@@ -2783,7 +3802,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 5494691
+      "pop": 5494691,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PAK",
@@ -2803,7 +3829,14 @@
       "gini": 33.5,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 255219554
+      "pop": 255219554,
+      "median_ppp_annual": 1577.6,
+      "median_ppp_daily": 4.3222,
+      "welfare_type": "consumption",
+      "survey_year": 2024.6,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PAN",
@@ -2823,7 +3856,14 @@
       "gini": 49.7,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 4571189
+      "pop": 4571189,
+      "median_ppp_annual": 6780.39,
+      "median_ppp_daily": 18.5764,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PER",
@@ -2843,7 +3883,14 @@
       "gini": 40.1,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 34576665
+      "pop": 34576665,
+      "median_ppp_annual": 3894.44,
+      "median_ppp_daily": 10.6697,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PHL",
@@ -2863,7 +3910,14 @@
       "gini": 39.3,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 116786962
+      "pop": 116786962,
+      "median_ppp_annual": 2068.64,
+      "median_ppp_daily": 5.6675,
+      "welfare_type": "consumption",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PLW",
@@ -2883,7 +3937,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 17663
+      "pop": 17663,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PNG",
@@ -2903,7 +3964,14 @@
       "gini": 41.9,
       "gini_year": 2009,
       "gini_imputed": false,
-      "pop": 10762817
+      "pop": 10762817,
+      "median_ppp_annual": 1056.35,
+      "median_ppp_daily": 2.8941,
+      "welfare_type": "consumption",
+      "survey_year": 2009.67,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "POL",
@@ -2923,7 +3991,14 @@
       "gini": 28.5,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 36435861
+      "pop": 36435861,
+      "median_ppp_annual": 14176.31,
+      "median_ppp_daily": 38.8392,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PRI",
@@ -2943,7 +4018,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 3184835
+      "pop": 3184835,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PRT",
@@ -2963,7 +4045,14 @@
       "gini": 33.9,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 10804871
+      "pop": 10804871,
+      "median_ppp_annual": 12292.07,
+      "median_ppp_daily": 33.6769,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "PRY",
@@ -2983,7 +4072,14 @@
       "gini": 44.2,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 7013078
+      "pop": 7013078,
+      "median_ppp_annual": 5446.53,
+      "median_ppp_daily": 14.922,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "QAT",
@@ -3003,7 +4099,14 @@
       "gini": 35.1,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 2972215
+      "pop": 2972215,
+      "median_ppp_annual": 26778.12,
+      "median_ppp_daily": 73.3647,
+      "welfare_type": "income",
+      "survey_year": 2017.5,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ROU",
@@ -3023,7 +4126,14 @@
       "gini": 29.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 19020271
+      "pop": 19020271,
+      "median_ppp_annual": 10896.13,
+      "median_ppp_daily": 29.8524,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "RUS",
@@ -3043,7 +4153,14 @@
       "gini": 33.0,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 143513328
+      "pop": 143513328,
+      "median_ppp_annual": 12271.37,
+      "median_ppp_daily": 33.6202,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "RWA",
@@ -3063,7 +4180,14 @@
       "gini": 39.4,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 14569341
+      "pop": 14569341,
+      "median_ppp_annual": 1281.22,
+      "median_ppp_daily": 3.5102,
+      "welfare_type": "consumption",
+      "survey_year": 2023.77,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SAU",
@@ -3083,7 +4207,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 36973555
+      "pop": 36973555,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SDN",
@@ -3103,7 +4234,14 @@
       "gini": 34.2,
       "gini_year": 2014,
       "gini_imputed": false,
-      "pop": 51662147
+      "pop": 51662147,
+      "median_ppp_annual": 2159.01,
+      "median_ppp_daily": 5.9151,
+      "welfare_type": "consumption",
+      "survey_year": 2014.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SEN",
@@ -3123,7 +4261,14 @@
       "gini": 36.2,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 18931966
+      "pop": 18931966,
+      "median_ppp_annual": 1837.99,
+      "median_ppp_daily": 5.0356,
+      "welfare_type": "consumption",
+      "survey_year": 2021.71,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SGP",
@@ -3143,7 +4288,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 6111175
+      "pop": 6111175,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SLB",
@@ -3163,7 +4315,14 @@
       "gini": 37.1,
       "gini_year": 2012,
       "gini_imputed": false,
-      "pop": 838645
+      "pop": 838645,
+      "median_ppp_annual": 1252.24,
+      "median_ppp_daily": 3.4308,
+      "welfare_type": "consumption",
+      "survey_year": 2012.79,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SLE",
@@ -3183,7 +4342,14 @@
       "gini": 35.7,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 8819794
+      "pop": 8819794,
+      "median_ppp_annual": 1225.93,
+      "median_ppp_daily": 3.3587,
+      "welfare_type": "consumption",
+      "survey_year": 2018.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SLV",
@@ -3203,7 +4369,14 @@
       "gini": 39.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 6365503
+      "pop": 6365503,
+      "median_ppp_annual": 4336.16,
+      "median_ppp_daily": 11.8799,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SMR",
@@ -3223,7 +4396,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 34109
+      "pop": 34109,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SOM",
@@ -3243,7 +4423,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 19654739
+      "pop": 19654739,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Conflict / missing reliable series"
     },
     {
       "iso3": "SRB",
@@ -3263,7 +4450,14 @@
       "gini": 32.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 6549143
+      "pop": 6549143,
+      "median_ppp_annual": 7685.99,
+      "median_ppp_daily": 21.0575,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SSD",
@@ -3283,7 +4477,14 @@
       "gini": 44.0,
       "gini_year": 2016,
       "gini_imputed": false,
-      "pop": 12188788
+      "pop": 12188788,
+      "median_ppp_annual": 603.89,
+      "median_ppp_daily": 1.6545,
+      "welfare_type": "consumption",
+      "survey_year": 2016.5,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Conflict"
     },
     {
       "iso3": "STP",
@@ -3303,7 +4504,14 @@
       "gini": 40.7,
       "gini_year": 2017,
       "gini_imputed": false,
-      "pop": 240254
+      "pop": 240254,
+      "median_ppp_annual": 2177.7,
+      "median_ppp_daily": 5.9663,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SUR",
@@ -3323,7 +4531,14 @@
       "gini": 39.2,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 639850
+      "pop": 639850,
+      "median_ppp_annual": 5269.72,
+      "median_ppp_daily": 14.4376,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SVK",
@@ -3343,7 +4558,14 @@
       "gini": 23.8,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 5413813
+      "pop": 5413813,
+      "median_ppp_annual": 8928.78,
+      "median_ppp_daily": 24.4624,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SVN",
@@ -3363,7 +4585,14 @@
       "gini": 24.7,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 2130986
+      "pop": 2130986,
+      "median_ppp_annual": 17971.03,
+      "median_ppp_daily": 49.2357,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SWE",
@@ -3383,7 +4612,14 @@
       "gini": 29.3,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 10596620
+      "pop": 10596620,
+      "median_ppp_annual": 20295.24,
+      "median_ppp_daily": 55.6034,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SWZ",
@@ -3403,7 +4639,14 @@
       "gini": 54.6,
       "gini_year": 2016,
       "gini_imputed": false,
-      "pop": 1256174
+      "pop": 1256174,
+      "median_ppp_annual": 1234.65,
+      "median_ppp_daily": 3.3826,
+      "welfare_type": "consumption",
+      "survey_year": 2016.17,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SXM",
@@ -3423,7 +4666,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 43923
+      "pop": 43923,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SYC",
@@ -3443,7 +4693,14 @@
       "gini": 32.1,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 122730
+      "pop": 122730,
+      "median_ppp_annual": 7665.37,
+      "median_ppp_daily": 21.001,
+      "welfare_type": "income",
+      "survey_year": 2018.08,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "SYR",
@@ -3463,7 +4720,14 @@
       "gini": 26.4,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 25620427
+      "pop": 25620427,
+      "median_ppp_annual": 1683.78,
+      "median_ppp_daily": 4.6131,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Conflict"
     },
     {
       "iso3": "TCA",
@@ -3483,7 +4747,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 46855
+      "pop": 46855,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TCD",
@@ -3503,7 +4774,14 @@
       "gini": 37.4,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 21003705
+      "pop": 21003705,
+      "median_ppp_annual": 1336.3,
+      "median_ppp_daily": 3.6611,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TGO",
@@ -3523,7 +4801,14 @@
       "gini": 37.9,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 8591626
+      "pop": 8591626,
+      "median_ppp_annual": 1405.72,
+      "median_ppp_daily": 3.8513,
+      "welfare_type": "consumption",
+      "survey_year": 2021.63,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "THA",
@@ -3543,7 +4828,14 @@
       "gini": 33.3,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 71619863
+      "pop": 71619863,
+      "median_ppp_annual": 5736.89,
+      "median_ppp_daily": 15.7175,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TJK",
@@ -3563,7 +4855,14 @@
       "gini": 36.1,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 10786734
+      "pop": 10786734,
+      "median_ppp_annual": 2779.22,
+      "median_ppp_daily": 7.6143,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TKM",
@@ -3583,7 +4882,14 @@
       "gini": 40.8,
       "gini_year": 1998,
       "gini_imputed": false,
-      "pop": 7618847
+      "pop": 7618847,
+      "median_ppp_annual": 1397.99,
+      "median_ppp_daily": 3.8301,
+      "welfare_type": "consumption",
+      "survey_year": 1998.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Collapsed official FX (junk PLI); Survey year 1998.0 older than 2005; Unreliable PLI / PPP / FX"
     },
     {
       "iso3": "TLS",
@@ -3603,7 +4909,14 @@
       "gini": 28.7,
       "gini_year": 2014,
       "gini_imputed": false,
-      "pop": 1418517
+      "pop": 1418517,
+      "median_ppp_annual": 1171.65,
+      "median_ppp_daily": 3.21,
+      "welfare_type": "consumption",
+      "survey_year": 2014.31,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TON",
@@ -3623,7 +4936,14 @@
       "gini": 27.1,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 103742
+      "pop": 103742,
+      "median_ppp_annual": 4015.99,
+      "median_ppp_daily": 11.0027,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TTO",
@@ -3643,7 +4963,14 @@
       "gini": 40.2,
       "gini_year": 1992,
       "gini_imputed": false,
-      "pop": 1367764
+      "pop": 1367764,
+      "median_ppp_annual": 4442.67,
+      "median_ppp_daily": 12.1717,
+      "welfare_type": "income",
+      "survey_year": 1992.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Survey year 1992.0 older than 2005"
     },
     {
       "iso3": "TUN",
@@ -3663,7 +4990,14 @@
       "gini": 33.7,
       "gini_year": 2021,
       "gini_imputed": false,
-      "pop": 12348573
+      "pop": 12348573,
+      "median_ppp_annual": 4759.6,
+      "median_ppp_daily": 13.04,
+      "welfare_type": "consumption",
+      "survey_year": 2021.23,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TUR",
@@ -3683,7 +5017,14 @@
       "gini": 43.7,
       "gini_year": 2023,
       "gini_imputed": false,
-      "pop": 85878556
+      "pop": 85878556,
+      "median_ppp_annual": 10127.03,
+      "median_ppp_daily": 27.7453,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TUV",
@@ -3703,7 +5044,14 @@
       "gini": 39.1,
       "gini_year": 2010,
       "gini_imputed": false,
-      "pop": 9492
+      "pop": 9492,
+      "median_ppp_annual": 2533.06,
+      "median_ppp_daily": 6.9399,
+      "welfare_type": "consumption",
+      "survey_year": 2010.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "TZA",
@@ -3723,7 +5071,14 @@
       "gini": 40.5,
       "gini_year": 2018,
       "gini_imputed": false,
-      "pop": 70545865
+      "pop": 70545865,
+      "median_ppp_annual": 1079.78,
+      "median_ppp_daily": 2.9583,
+      "welfare_type": "consumption",
+      "survey_year": 2017.92,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "UGA",
@@ -3743,7 +5098,14 @@
       "gini": 42.7,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 51384894
+      "pop": 51384894,
+      "median_ppp_annual": 934.91,
+      "median_ppp_daily": 2.5614,
+      "welfare_type": "consumption",
+      "survey_year": 2019.64,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "UKR",
@@ -3763,7 +5125,14 @@
       "gini": 25.6,
       "gini_year": 2020,
       "gini_imputed": false,
-      "pop": 38980376
+      "pop": 38980376,
+      "median_ppp_annual": 5001.7,
+      "median_ppp_daily": 13.7033,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "URY",
@@ -3783,7 +5152,14 @@
       "gini": 40.0,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 3384688
+      "pop": 3384688,
+      "median_ppp_annual": 9796.89,
+      "median_ppp_daily": 26.8408,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "USA",
@@ -3803,7 +5179,14 @@
       "gini": 41.8,
       "gini_year": 2024,
       "gini_imputed": false,
-      "pop": 341784857
+      "pop": 341784857,
+      "median_ppp_annual": 26303.87,
+      "median_ppp_daily": 72.0654,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "UZB",
@@ -3823,7 +5206,14 @@
       "gini": 32.7,
       "gini_year": 2025,
       "gini_imputed": false,
-      "pop": 37053428
+      "pop": 37053428,
+      "median_ppp_annual": 6036.74,
+      "median_ppp_daily": 16.539,
+      "welfare_type": "income",
+      "survey_year": 2025.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "VCT",
@@ -3843,7 +5233,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 99924
+      "pop": 99924,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "VEN",
@@ -3863,7 +5260,14 @@
       "gini": 44.7,
       "gini_year": 2006,
       "gini_imputed": false,
-      "pop": 28516896
+      "pop": 28516896,
+      "median_ppp_annual": 3425.85,
+      "median_ppp_daily": 9.3859,
+      "welfare_type": "income",
+      "survey_year": 2006.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Missing or broken FX; Unreliable PLI / PPP / FX"
     },
     {
       "iso3": "VIR",
@@ -3883,7 +5287,14 @@
       "gini": 38.0,
       "gini_year": null,
       "gini_imputed": true,
-      "pop": 103792
+      "pop": 103792,
+      "median_ppp_annual": null,
+      "median_ppp_daily": null,
+      "welfare_type": null,
+      "survey_year": null,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "VNM",
@@ -3903,7 +5314,14 @@
       "gini": 36.1,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 101598527
+      "pop": 101598527,
+      "median_ppp_annual": 4861.51,
+      "median_ppp_daily": 13.3192,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "VUT",
@@ -3923,7 +5341,14 @@
       "gini": 32.3,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 335169
+      "pop": 335169,
+      "median_ppp_annual": 1886.03,
+      "median_ppp_daily": 5.1672,
+      "welfare_type": "consumption",
+      "survey_year": 2019.21,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "WSM",
@@ -3943,7 +5368,14 @@
       "gini": 38.7,
       "gini_year": 2013,
       "gini_imputed": false,
-      "pop": 219306
+      "pop": 219306,
+      "median_ppp_annual": 3057.31,
+      "median_ppp_daily": 8.3762,
+      "welfare_type": "consumption",
+      "survey_year": 2013.25,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "XKX",
@@ -3963,7 +5395,14 @@
       "gini": 38.3,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 1576876
+      "pop": 1576876,
+      "median_ppp_annual": 3813.59,
+      "median_ppp_daily": 10.4482,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "YEM",
@@ -3983,7 +5422,14 @@
       "gini": 36.7,
       "gini_year": 2014,
       "gini_imputed": false,
-      "pop": 41773878
+      "pop": 41773878,
+      "median_ppp_annual": 1386.27,
+      "median_ppp_daily": 3.798,
+      "welfare_type": "consumption",
+      "survey_year": 2014.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Conflict"
     },
     {
       "iso3": "ZAF",
@@ -4003,7 +5449,14 @@
       "gini": 54.1,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 64747319
+      "pop": 64747319,
+      "median_ppp_annual": 2393.67,
+      "median_ppp_daily": 6.558,
+      "welfare_type": "consumption",
+      "survey_year": 2022.85,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ZMB",
@@ -4023,7 +5476,14 @@
       "gini": 51.5,
       "gini_year": 2022,
       "gini_imputed": false,
-      "pop": 21913874
+      "pop": 21913874,
+      "median_ppp_annual": 612.91,
+      "median_ppp_daily": 1.6792,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "ppp_base_year": 2021,
+      "excluded": false,
+      "exclude_reason": null
     },
     {
       "iso3": "ZWE",
@@ -4043,7 +5503,14 @@
       "gini": 50.3,
       "gini_year": 2019,
       "gini_imputed": false,
-      "pop": 16950795
+      "pop": 16950795,
+      "median_ppp_annual": 1112.48,
+      "median_ppp_daily": 3.0479,
+      "welfare_type": "consumption",
+      "survey_year": 2019.0,
+      "ppp_base_year": 2021,
+      "excluded": true,
+      "exclude_reason": "Collapsed official FX (junk PLI); Unreliable PLI / PPP / FX"
     }
   ]
 }
