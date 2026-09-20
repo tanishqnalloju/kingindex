@@ -1,9 +1,7 @@
 # KingIndex
 
-## Deployed
-
-- Primary: https://ppp-index-calculator.tanishqnalloju.com
-- Workers fallback: https://ppp-index-calculator.tanishqnalloju.workers.dev
+**Live:** [kingindex.tanishqnalloju.com](https://kingindex.tanishqnalloju.com)  
+Legacy: `ppp-index-calculator.tanishqnalloju.com` → 301 redirect (query string preserved). · [workers.dev](https://ppp-index-calculator.tanishq-nalloju.workers.dev)
 
 **Same paycheck. Different class.**
 
