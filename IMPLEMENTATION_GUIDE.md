@@ -310,7 +310,6 @@ For India (`pli_us ≈ 0.23`, `ppp ≈ 19.8`):
 
 For Switzerland (`pli_us ≈ 1.28`):
 - stretch ≈ 0.78× (more expensive)
-- equiv_local ≈ 80,000 * 1.06 ≈ CHF85k
 - local percentile much lower than India’s
 - band likely Comfortable or Affluent, not King
 
