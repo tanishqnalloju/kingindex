@@ -1,12 +1,15 @@
 {
-  // KingIndex — Cloudflare Workers static assets
-  // Custom domain attached via Workers Domains API:
-  //   ppp-index-calculator.tanishqnalloju.com
+  // KingIndex — static assets + hostname redirect
+  // Public: kingindex.tanishqnalloju.com
+  // Legacy: ppp-index-calculator.tanishqnalloju.com → 301 (query preserved)
   "name": "ppp-index-calculator",
+  "main": "src/worker.js",
   "compatibility_date": "2026-09-01",
   "workers_dev": true,
   "assets": {
     "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true,
     "not_found_handling": "single-page-application",
     "html_handling": "auto-trailing-slash"
   }
