@@ -1,18 +1,1294 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<script>(function(){try{var t=localStorage.getItem("kingindex-theme");document.documentElement.setAttribute("data-theme",t==="dark"?"dark":"light")}catch(e){}})();</script>
-<title>KingIndex — Same paycheck. Different class.</title>
-<meta name="description" content="Compare what the same salary buys across countries using World Bank PPP.">
-<style>
-:root{color-scheme:light;--bg:#f3f4f6;--panel:#fff;--panel2:#eef0f4;--border:#d0d5de;--text:#1a1f2a;--muted:#5a6678;--accent:#1a56a8;--gold:#a67c00;--shadow:0 2px 8px #0f172a0d;--thead:#e8ecf2}
-[data-theme=dark]{color-scheme:dark;--bg:#0b0e13;--panel:#12171f;--panel2:#18202b;--border:#243041;--text:#e6edf5;--muted:#8b9bb0;--accent:#3d9cf0;--gold:#e6b84d;--shadow:none;--thead:#161d28}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}main{max-width:1120px;margin:auto;padding:18px 18px 48px}header{display:flex;align-items:center;gap:16px;margin-bottom:16px}h1{font-size:1.4rem;margin:0}header span{color:var(--muted);flex:1}.theme-toggle{width:auto!important;padding:7px 11px!important;background:var(--panel)!important;color:var(--muted)!important;border:1px solid var(--border)!important;cursor:pointer!important}section,.summary,.card,.table-wrap{background:var(--panel);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow)}.controls{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:10px;padding:14px;margin-bottom:10px;align-items:end}@media(max-width:760px){.controls{grid-template-columns:1fr 1fr}.controls .full{grid-column:1/-1}}label{display:block;color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}input,select,button{width:100%;min-width:0;border:1px solid var(--border);border-radius:6px;background:var(--panel2);color:var(--text);padding:9px 10px;font:inherit}button{cursor:pointer}.primary{background:linear-gradient(#2a6fc9,#1a56a8);border:0;color:#fff;font-weight:700}.hint,.note,.caveat{color:var(--muted);font-size:.8rem}.summary{padding:14px 16px;margin:14px 0}.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}@media(max-width:700px){.cards{grid-template-columns:1fr}}.card{padding:14px}.card h2{font-size:.8rem;color:var(--muted);text-transform:uppercase;margin:0 0 8px}.metric{margin:8px 0}.metric .k{font-size:.7rem;color:var(--muted);text-transform:uppercase}.metric .v{font-size:1.12rem;font-weight:650}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:.82rem}th{background:var(--thead);color:var(--muted);text-align:left;font-size:.7rem;text-transform:uppercase;padding:8px}td{padding:7px 8px;border-bottom:1px solid var(--border)}.hidden{display:none}.err{color:#d14b43;padding:14px;text-align:center}.band{color:var(--gold);font-weight:700}
-</style></head>
-<body><main><header><h1>KingIndex</h1><span>Same paycheck. Different class.</span><button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme">☾ Dark</button></header>
-<div class="controls" id="controls"><div><label for="income">Annual income</label><input id="income" value="80,000" inputmode="decimal"></div><div><label for="itype">Income type</label><select id="itype"><option>Net (take-home)</option><option>Gross</option></select></div><div><label for="home">Home country</label><select id="home"><option value="USA">United States</option></select></div><div><label for="dest">Destination</label><select id="dest"><option value="">All countries</option></select></div><div class="full"><label>&nbsp;</label><button class="primary" id="rankBtn" type="button">Compare</button></div></div>
-<p class="hint" id="currencyHint">Income is annual, in the home country's currency.</p><p class="caveat">Country-level consumption prices. Not rent, tax, visa, or school fees.</p><div id="status" class="err hidden"></div><div id="results" class="hidden"><div class="summary" id="summaryText"></div><div class="cards"><div class="card" id="homeCard"></div><div class="card" id="destCard"></div></div><div class="table-wrap"><table><thead><tr><th>Country</th><th>Price level</th><th>Local equivalent</th><th>Rank</th></tr></thead><tbody id="tbody"></tbody></table></div></div><p class="note" id="metaNote"></p></main>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <script>
-(function(){"use strict";var DATA=null,byIso={};var $=function(id){return document.getElementById(id)};function money(n,c){return isFinite(n)?Math.round(n).toLocaleString()+" "+(c||""):"—"}function income(){return parseFloat($("income").value.replace(/[^\d.]/g,""))||0}function populate(){var cs=(DATA.countries||[]).slice().sort(function(a,b){return a.name.localeCompare(b.name)});cs.forEach(function(c){byIso[c.iso3]=c;var o=document.createElement("option");o.value=c.iso3;o.textContent=c.name+" ("+c.iso3+")";$("dest").appendChild(o);if(c.iso3!=="USA"){var h=o.cloneNode(true);$("home").appendChild(h)}});if(byIso.USA){$("home").value="USA"}$("metaNote").textContent="Snapshot: "+(DATA.meta&&DATA.meta.generated_at||"local")+" · "+cs.length+" countries";compare()}function compare(){if(!DATA)return;var n=income(),h=byIso[$("home").value],d=byIso[$("dest").value];if(!h||!n){$("status").textContent="Select a home country and enter a positive income.";$("status").classList.remove("hidden");return}$("status").classList.add("hidden");$("results").classList.remove("hidden");var ppp=n/(h.ppp||1),homeP=ppp/(h.mean_income_ppp||1),lead=n.toLocaleString()+" "+$("itype").value+" in "+h.name;$("summaryText").textContent=lead+(d?" · same purchasing power in "+d.name:" · compare purchasing power worldwide");$("homeCard").innerHTML="<h2>Home · "+h.name+"</h2><div class=metric><div class=k>Income</div><div class=v>"+money(n,h.currency)+"</div></div><div class=metric><div class=k>PPP purchasing power</div><div class=v>about $"+Math.round(ppp).toLocaleString()+" Int$</div></div>";$("destCard").innerHTML=d?"<h2>Destination · "+d.name+"</h2><div class=metric><div class=k>PPP equivalent</div><div class=v>"+money(ppp*(d.ppp||1),d.currency)+"</div></div><div class=metric><div class=k>Price level vs US</div><div class=v>"+Math.round((d.pli_us||0)*100)+"</div></div>":"<h2>Destination</h2><div class=metric><div class=v>Choose a destination for a direct comparison.</div></div>";var rows=DATA.countries.map(function(c){var eq=ppp*(c.ppp||1);return {c:c,eq:eq,pli:(c.pli_us||0)*100}}).filter(function(r){return r.c.pli_us&&r.c.ppp}).sort(function(a,b){return a.pli-b.pli}).slice(0,25);$("tbody").innerHTML=rows.map(function(r){return "<tr><td>"+r.c.name+" <small>"+r.c.iso3+"</small></td><td>"+Math.round(r.pli)+"</td><td>"+money(r.eq,r.c.currency)+"</td><td class=band>"+(r.pli<50?"Comfortable":"Compare")+"</td></tr>"}).join("")}$("rankBtn").addEventListener("click",compare);$("home").addEventListener("change",compare);$("dest").addEventListener("change",compare);$("income").addEventListener("change",compare);function apply(t){t=t==="dark"?"dark":"light";document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("kingindex-theme",t)}catch(e){}$("themeToggle").textContent=t==="dark"?"☀ Light":"☾ Dark";$("themeToggle").setAttribute("aria-label","Switch to "+(t==="dark"?"light":"dark")+" theme")}$("themeToggle").addEventListener("click",function(){apply(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")});apply(document.documentElement.getAttribute("data-theme"));fetch("./data/countries.json").then(function(r){if(!r.ok)throw Error();return r.json()}).then(function(x){DATA=x;populate()}).catch(function(){$("status").textContent="Drop data/countries.json next to index.html";$("status").classList.remove("hidden")})})();
-</script></body></html>
+(function () {
+  try {
+    var t = localStorage.getItem("kingindex-theme");
+    if (t !== "light" && t !== "dark") t = "light";
+    document.documentElement.setAttribute("data-theme", t);
+  } catch (e) {
+    document.documentElement.setAttribute("data-theme", "light");
+  }
+})();
+</script>
+<title>KingIndex — Same paycheck. Different class.</title>
+<meta name="description" content="Compare what the same salary buys across countries using World Bank PPP. Rank local class at home vs destination." />
+<meta property="og:title" content="KingIndex — Same paycheck. Different class." />
+<meta property="og:description" content="Live PPP calculator: convert your income into local class — cheapest places, highest rank, stretch vs home." />
+<meta property="og:type" content="website" />
+<link rel="canonical" href="https://kingindex.tanishqnalloju.com/" />
+<meta property="og:url" content="https://kingindex.tanishqnalloju.com/" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="KingIndex — Same paycheck. Different class." />
+<meta name="twitter:description" content="Live PPP calculator: convert your income into local class across countries." />
+<style>
+  :root {
+    /* Light — paper / terminal-lite (default) */
+    color-scheme: light;
+    --bg: #f3f4f6;
+    --panel: #ffffff;
+    --panel2: #eef0f4;
+    --border: #d0d5de;
+    --text: #1a1f2a;
+    --muted: #5a6678;
+    --accent: #1a56a8;
+    --teal: #0d7a6f;
+    --gold: #a67c00;
+    --king: #8a6800;
+    --danger: #c0392b;
+    --track: #dde2ea;
+    --us-tick: #7a8a9e;
+    --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 2px 6px rgba(15, 23, 42, 0.04);
+    --thead-bg: #e8ecf2;
+    --row-hover: #eef2f7;
+    --row-selected: #e4eef8;
+    --row-selected-outline: #8fafd4;
+    --row-border: #e4e8ef;
+    --method-bg: #fafbfc;
+    --method-strong: #2c3648;
+    --picker-hover: #e4eaf3;
+    --ghost-hover-border: #8a98ad;
+    --primary-top: #2a6fc9;
+    --primary-bot: #1a56a8;
+    --band-stretched-fg: #5a6678;
+    --band-stretched-bg: #eef1f5;
+    --band-stretched-bd: #c8d0dc;
+    --band-normal-fg: #3a4658;
+    --band-normal-bg: #e8ecf2;
+    --band-normal-bd: #b8c2d0;
+    --band-comfortable-fg: #0a6b60;
+    --band-comfortable-bg: #e4f3f0;
+    --band-comfortable-bd: #9bcfc6;
+    --band-affluent-fg: #8a6800;
+    --band-affluent-bg: #f7f0d8;
+    --band-affluent-bd: #d4bc6a;
+    --band-king-fg: #7a5c00;
+    --band-king-bg: #f5e9b8;
+    --band-king-bd: #c9a82e;
+    --band-king-glow: rgba(166, 124, 0, 0.2);
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0b0e13;
+    --panel: #12171f;
+    --panel2: #18202b;
+    --border: #243041;
+    --text: #e6edf5;
+    --muted: #8b9bb0;
+    --accent: #3d9cf0;
+    --teal: #2ec4b6;
+    --gold: #e6b84d;
+    --king: #ffd76a;
+    --danger: #e85d5d;
+    --track: #1e2836;
+    --us-tick: #6b7c93;
+    --shadow: none;
+    --thead-bg: #161d28;
+    --row-hover: #151c27;
+    --row-selected: #1a2838;
+    --row-selected-outline: #2a4a6a;
+    --row-border: #1a2230;
+    --method-bg: #151b25;
+    --method-strong: #c9d4e3;
+    --picker-hover: #1e2a3a;
+    --ghost-hover-border: #3a4d66;
+    --primary-top: #3d9cf0;
+    --primary-bot: #2a7bc4;
+    --band-stretched-fg: #8b9bb0;
+    --band-stretched-bg: #1a2030;
+    --band-stretched-bd: #2a3548;
+    --band-normal-fg: #c5d0df;
+    --band-normal-bg: #1a2230;
+    --band-normal-bd: #2e3c52;
+    --band-comfortable-fg: #2ec4b6;
+    --band-comfortable-bg: #122826;
+    --band-comfortable-bd: #1f4a45;
+    --band-affluent-fg: #e6b84d;
+    --band-affluent-bg: #2a2414;
+    --band-affluent-bd: #5a4a1e;
+    --band-king-fg: #ffd76a;
+    --band-king-bg: #2f2610;
+    --band-king-bd: #7a6220;
+    --band-king-glow: rgba(255, 215, 106, 0.15);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font); }
+  body { min-height: 100vh; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 16px 18px 48px; }
+  header.app {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px;
+    margin-bottom: 14px;
+  }
+  header.app h1 { margin: 0; font-size: 1.4rem; letter-spacing: -0.025em; font-weight: 700; color: var(--text); }
+  header.app .tag { color: var(--muted); font-size: 0.9rem; flex: 1 1 auto; min-width: 12rem; }
+  .theme-toggle {
+    margin-left: auto;
+    width: auto !important;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    letter-spacing: 0.02em;
+  }
+  .theme-toggle:hover { color: var(--text); border-color: var(--ghost-hover-border); }
+  .theme-toggle:focus { outline: none; }
+  .theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .theme-toggle .theme-icon { font-size: 0.95rem; line-height: 1; }
+  .caveat-short {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0 0 12px;
+    line-height: 1.45;
+  }
+  details.method {
+    background: var(--method-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 16px;
+    border-radius: 0 6px 6px 0;
+    box-shadow: var(--shadow);
+  }
+  details.method summary {
+    cursor: pointer;
+    color: var(--method-strong);
+    font-weight: 600;
+    list-style: none;
+  }
+  details.method summary::-webkit-details-marker { display: none; }
+  details.method summary::before { content: "▸ "; color: var(--gold); }
+  details.method[open] summary::before { content: "▾ "; }
+  details.method .body { margin-top: 8px; }
+  details.method strong { color: var(--method-strong); font-weight: 600; }
+  .controls {
+    display: grid;
+    grid-template-columns: 1.1fr 0.7fr 1.2fr 1.2fr auto;
+    gap: 10px;
+    align-items: end;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .controls > div { min-width: 0; }
+  @media (max-width: 860px) {
+    .controls { grid-template-columns: 1fr 1fr; }
+    .controls .full { grid-column: 1 / -1; }
+  }
+  @media (max-width: 520px) {
+    .controls { grid-template-columns: 1fr; }
+  }
+  label { display: block; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.045em; margin-bottom: 4px; font-weight: 600; }
+  input[type="number"], input[type="text"], select, button {
+    width: 100%;
+    min-width: 0;
+    background: var(--panel2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 6px;
+    padding: 9px 10px;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+  }
+  select {
+    overflow: visible;
+    text-overflow: ellipsis;
+  }
+  .picker { position: relative; min-width: 0; }
+  .picker input[type="text"] { width: 100%; }
+  .picker-list {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    left: 0; right: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-top: 2px;
+    box-shadow: var(--shadow);
+  }
+  .picker-list.open { display: block; }
+  .picker-list button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 8px 10px;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.88rem;
+  }
+  .picker-list button:hover,
+  .picker-list button.active { background: var(--picker-hover); }
+  input:focus, select:focus, button:focus { outline: 1px solid var(--accent); outline-offset: 1px; }
+  button.primary {
+    background: linear-gradient(180deg, var(--primary-top), var(--primary-bot));
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  button.primary:hover { filter: brightness(1.06); }
+  button.ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    width: auto;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+  button.ghost:hover { color: var(--text); border-color: var(--ghost-hover-border); }
+  .hint { font-size: 0.78rem; color: var(--muted); margin: 0 0 10px; }
+  .summary {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    line-height: 1.55;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow);
+    font-variant-numeric: tabular-nums;
+  }
+  .summary .actions { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  @media (max-width: 720px) { .cards { grid-template-columns: 1fr; } }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+  .card h2 { margin: 0 0 10px; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+  .metric { margin: 8px 0; }
+  .metric .k { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+  .metric .v { font-size: 1.12rem; font-variant-numeric: tabular-nums; font-weight: 600; letter-spacing: -0.01em; }
+  .metric .s { font-size: 0.78rem; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .band-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    letter-spacing: 0.01em;
+  }
+  .band-Stretched { color: var(--band-stretched-fg); background: var(--band-stretched-bg); border-color: var(--band-stretched-bd); }
+  .band-Normal { color: var(--band-normal-fg); background: var(--band-normal-bg); border-color: var(--band-normal-bd); }
+  .band-Comfortable { color: var(--band-comfortable-fg); background: var(--band-comfortable-bg); border-color: var(--band-comfortable-bd); }
+  .band-Affluent { color: var(--band-affluent-fg); background: var(--band-affluent-bg); border-color: var(--band-affluent-bd); }
+  .band-King {
+    color: var(--band-king-fg);
+    background: var(--band-king-bg);
+    border-color: var(--band-king-bd);
+    box-shadow: 0 0 0 1px var(--band-king-glow);
+  }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  @media (max-width: 720px) { .tiles { grid-template-columns: 1fr; } }
+  .tile { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; box-shadow: var(--shadow); }
+  .tile h3 { margin: 0 0 8px; font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+  .tile ol { margin: 0; padding-left: 18px; font-size: 0.86rem; }
+  .tile li { margin: 3px 0; font-variant-numeric: tabular-nums; }
+  .filters {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: end;
+    margin-bottom: 10px;
+  }
+  .filters > div { min-width: 140px; flex: 1; }
+  .filters .chk { display: flex; align-items: center; gap: 6px; padding-bottom: 8px; font-size: 0.85rem; color: var(--muted); min-width: auto; flex: 0 0 auto; }
+  .filters .chk input { width: auto; }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+    max-height: 70vh;
+    box-shadow: var(--shadow);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+  thead th {
+    position: sticky; top: 0; z-index: 1;
+    background: var(--thead-bg);
+    text-align: left;
+    padding: 8px 8px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.035em;
+  }
+  thead th:hover { color: var(--text); }
+  thead th.sorted { color: var(--accent); }
+  tbody td { padding: 6px 8px; border-bottom: 1px solid var(--row-border); vertical-align: middle; }
+  tbody tr:hover { background: var(--row-hover); }
+  tbody tr.row-selected { background: var(--row-selected); outline: 1px solid var(--row-selected-outline); outline-offset: -1px; }
+  tbody tr.row-unreliable td { color: var(--muted); opacity: 0.85; }
+  .iso { color: var(--muted); font-size: 0.72rem; margin-left: 4px; font-variant-numeric: tabular-nums; }
+  .pli-bar {
+    position: relative;
+    height: 7px;
+    width: 88px;
+    background: var(--track);
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+    border: 1px solid var(--border);
+  }
+  .pli-bar .fill {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    border-radius: 2px;
+    background: var(--accent);
+    max-width: 100%;
+  }
+  .pli-bar .tick {
+    position: absolute; top: -2px; bottom: -2px; width: 2px;
+    background: var(--us-tick); left: calc(100 / 160 * 100%);
+  }
+  .row-King td:first-child { color: var(--king); font-weight: 600; }
+  .err { color: var(--danger); padding: 20px; text-align: center; }
+  .hidden { display: none !important; }
+  footer.note { margin-top: 18px; font-size: 0.75rem; color: var(--muted); }
+  .muted { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app">
+    <h1>KingIndex</h1>
+    <span class="tag">Same paycheck. Different class.</span>
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false" title="Toggle theme">
+      <span class="theme-icon" aria-hidden="true">☾</span>
+      <span class="theme-label">Dark</span>
+    </button>
+  </header>
+
+  <div class="controls" id="controls">
+    <div>
+      <label for="income">Annual income</label>
+      <input type="text" id="income" inputmode="decimal" value="80,000" autocomplete="off" />
+    </div>
+    <div>
+      <label for="itype">Income type</label>
+      <select id="itype">
+        <option value="net" selected>Net (take-home)</option>
+        <option value="gross">Gross</option>
+      </select>
+    </div>
+    <div class="picker">
+      <label for="homeInput">Home country</label>
+      <input type="text" id="homeInput" placeholder="Search country…" autocomplete="off" />
+      <input type="hidden" id="home" />
+      <div class="picker-list" id="homeList" role="listbox"></div>
+    </div>
+    <div class="picker">
+      <label for="destInput">Destination</label>
+      <input type="text" id="destInput" placeholder="All countries" autocomplete="off" />
+      <input type="hidden" id="dest" value="" />
+      <div class="picker-list" id="destList" role="listbox"></div>
+    </div>
+    <div class="full">
+      <label>&nbsp;</label>
+      <button class="primary" id="rankBtn" type="button">Compare</button>
+    </div>
+  </div>
+  <p class="hint" id="currencyHint">Income is annual, in the home country's currency.</p>
+
+  <p class="caveat-short">Country-level consumption prices. Not rent, tax, visa, or school fees.</p>
+  <details class="method" id="caveat">
+    <summary>How this is calculated</summary>
+    <div class="body">
+      <strong>Country-level consumption PPP</strong> (World Bank / ICP, extrapolated).<br />
+      Not your rent, taxes, visa, or school fees.<br />
+      Percentiles are a lognormal estimate from GNI/GDP per capita + Gini — not household survey microdata.<br />
+      Use this to rank places, not to accept a job.
+    </div>
+  </details>
+
+  <div id="status" class="err hidden"></div>
+
+  <div id="results" class="hidden">
+    <div class="summary">
+      <div id="summaryText"></div>
+      <div class="actions">
+        <button class="ghost" type="button" id="copyBtn">Copy summary</button>
+        <button class="ghost" type="button" id="copyUrlBtn">Copy link</button>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card" id="homeCard"></div>
+      <div class="card" id="destCard"></div>
+    </div>
+
+    <div class="tiles">
+      <div class="tile">
+        <h3>Cheapest 5 · Comfortable+</h3>
+        <ol id="cheap5"></ol>
+      </div>
+      <div class="tile">
+        <h3>Highest local rank 5</h3>
+        <ol id="rank5"></ol>
+      </div>
+    </div>
+
+    <div class="filters">
+      <div>
+        <label for="fRegion">Region</label>
+        <select id="fRegion"><option value="">All regions</option></select>
+      </div>
+      <div>
+        <label for="fBand">Band filter</label>
+        <select id="fBand">
+          <option value="">All bands</option>
+          <option value="Stretched">Stretched</option>
+          <option value="Normal">Normal local life</option>
+          <option value="Comfortable">Comfortable</option>
+          <option value="Affluent">Affluent</option>
+          <option value="King">Locally king</option>
+          <option value="Comfortable+">Comfortable+</option>
+          <option value="Affluent+">Affluent+</option>
+        </select>
+      </div>
+      <div>
+        <label for="fSearch">Search</label>
+        <input type="text" id="fSearch" placeholder="Country name…" />
+      </div>
+      <div class="chk">
+        <input type="checkbox" id="fCheaper" />
+        <label for="fCheaper" style="margin:0;text-transform:none;letter-spacing:0;font-size:0.85rem;">Cheaper than home</label>
+      </div>
+      <div class="chk">
+        <input type="checkbox" id="fShowAll" />
+        <label for="fShowAll" style="margin:0;text-transform:none;letter-spacing:0;font-size:0.85rem;">Show all countries</label>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-sort="name">Country</th>
+            <th data-sort="pli" title="Price level index vs US (US = 100). Lower = cheaper consumption prices.">Price level</th>
+            <th data-sort="stretch" title="Home price level ÷ destination price level. Above 1.00 means destination is cheaper.">Stretch vs home</th>
+            <th data-sort="equiv">Local equivalent</th>
+            <th data-sort="pct">Est. local %ile</th>
+            <th data-sort="band">Band</th>
+            <th data-sort="year">Data year</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="note" id="metaNote"></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- Math helpers ----------
+  function normCdf(x) {
+    // Abramowitz & Stegun 26.2.17 approximation
+    const a1 = 0.254829592, a2 = -0.284496736, a3 = 1.421413741;
+    const a4 = -1.453152027, a5 = 1.061405429, p = 0.3275911;
+    const sign = x < 0 ? -1 : 1;
+    const t = 1 / (1 + p * Math.abs(x));
+    const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x / 2);
+    return 0.5 * (1 + sign * y);
+  }
+
+  // Acklam inverse normal CDF
+  function normInv(p) {
+    if (p <= 0) return -Infinity;
+    if (p >= 1) return Infinity;
+    const a = [
+      -3.969683028665376e+01, 2.209460984245205e+02,
+      -2.759285104469687e+02, 1.383577518672690e+02,
+      -3.066479806614736e+01, 2.506628277459239e+00
+    ];
+    const b = [
+      -5.447609879822406e+01, 1.615858368580409e+02,
+      -1.556989798598866e+02, 6.680131188771972e+01,
+      -1.328068155288572e+01
+    ];
+    const c = [
+      -7.784894002430293e-03, -3.223726362411991e-01,
+      -2.400758277161838e+00, -2.549732539343734e+00,
+      4.374664141464968e+00, 2.938163982698783e+00
+    ];
+    const d = [
+      7.784695709041462e-03, 3.224671290700398e-01,
+      2.445134137142996e+00, 3.754408661907416e+00
+    ];
+    const plow = 0.02425, phigh = 1 - plow;
+    let q, r;
+    if (p < plow) {
+      q = Math.sqrt(-2 * Math.log(p));
+      return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /
+             ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+    }
+    if (p > phigh) {
+      q = Math.sqrt(-2 * Math.log(1 - p));
+      return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) /
+               ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+    }
+    q = p - 0.5;
+    r = q * q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5]) * q /
+           (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+
+  function sigmaFromGini(giniIndex) {
+    let g = giniIndex / 100;
+    g = Math.max(0.20, Math.min(0.65, g));
+    return Math.SQRT2 * normInv((g + 1) / 2);
+  }
+
+  function localPercentile(pppIncome, meanIncome, giniIndex) {
+    if (!(pppIncome > 0) || !(meanIncome > 0)) return null;
+    const sigma = sigmaFromGini(giniIndex);
+    const mu = Math.log(meanIncome) - (sigma * sigma) / 2;
+    const z = (Math.log(pppIncome) - mu) / sigma;
+    let p = normCdf(z) * 100;
+    p = Math.max(0.1, Math.min(99.9, p));
+    return p;
+  }
+
+  const GLOBAL_ANCHORS = [
+    [1000, 20], [2500, 40], [4000, 50], [10000, 70],
+    [20000, 82], [40000, 90], [60000, 95], [125000, 99], [250000, 99.7]
+  ];
+
+  function globalPercentile(pppIncome) {
+    if (!(pppIncome > 0)) return null;
+    if (pppIncome <= GLOBAL_ANCHORS[0][0]) return GLOBAL_ANCHORS[0][1];
+    const last = GLOBAL_ANCHORS[GLOBAL_ANCHORS.length - 1];
+    if (pppIncome >= last[0]) return last[1];
+    for (let i = 0; i < GLOBAL_ANCHORS.length - 1; i++) {
+      const [x0, y0] = GLOBAL_ANCHORS[i];
+      const [x1, y1] = GLOBAL_ANCHORS[i + 1];
+      if (pppIncome >= x0 && pppIncome <= x1) {
+        const t = (Math.log(pppIncome) - Math.log(x0)) / (Math.log(x1) - Math.log(x0));
+        return y0 + t * (y1 - y0);
+      }
+    }
+    return last[1];
+  }
+
+  function bandFromP(p) {
+    if (p == null) return { key: "—", label: "—" };
+    if (p < 40) return { key: "Stretched", label: "Stretched" };
+    if (p < 70) return { key: "Normal", label: "Normal local life" };
+    if (p < 90) return { key: "Comfortable", label: "Comfortable" };
+    if (p < 99) return { key: "Affluent", label: "Affluent" };
+    return { key: "King", label: "Locally king" };
+  }
+
+  function bandRank(key) {
+    return { Stretched: 0, Normal: 1, Comfortable: 2, Affluent: 3, King: 4 }[key] ?? -1;
+  }
+
+  function isReliable(c) {
+    // Quarantine zero/non-finite and junk ultra-low PLIs (TKM/ZWE/LBR-style FX mess)
+    // that produce Infinity× or 1000× stretch. Floor ~5% of US prices.
+    return Number.isFinite(c.pli_us) && c.pli_us >= 0.05
+      && Number.isFinite(c.ppp) && c.ppp > 0
+      && Number.isFinite(c.fx) && c.fx > 0;
+  }
+
+  function localeForCurrency(currency, iso3) {
+    if (currency === "INR" || iso3 === "IND") return "en-IN";
+    if (currency === "USD") return "en-US";
+    if (currency === "GBP") return "en-GB";
+    if (currency === "EUR") return "de-DE";
+    if (currency === "JPY") return "ja-JP";
+    if (currency === "CNY") return "zh-CN";
+    return "en-US";
+  }
+
+  function parseIncome(raw) {
+    const digits = String(raw || "").replace(/[^\d.]/g, "");
+    if (!digits) return NaN;
+    return parseFloat(digits);
+  }
+
+  function formatIncomeInput(n, currency, iso3) {
+    if (!(n > 0) || !isFinite(n)) return "";
+    const loc = localeForCurrency(currency, iso3);
+    return Math.round(n).toLocaleString(loc);
+  }
+
+  function fmtMoney(n, currency, iso3) {
+    if (n == null || !isFinite(n)) return "—";
+    const loc = localeForCurrency(currency, iso3);
+    const abs = Math.abs(n);
+    let digits = abs >= 1000 ? 0 : abs >= 100 ? 1 : 2;
+    const s = n.toLocaleString(loc, { maximumFractionDigits: digits, minimumFractionDigits: 0 });
+    return currency && currency !== "LCU" ? `${s} ${currency}` : s;
+  }
+
+  function fmtInt(n, loc) {
+    if (n == null || !isFinite(n)) return "—";
+    return Math.round(n).toLocaleString(loc || "en-US");
+  }
+
+  function fmtIncomeLead(n, currency, iso3) {
+    if (n == null || !isFinite(n)) return "—";
+    const loc = localeForCurrency(currency, iso3);
+    const s = Math.round(n).toLocaleString(loc);
+    if (currency === "USD") return `$${s}`;
+    if (currency === "INR") return `₹${s}`;
+    if (currency === "GBP") return `£${s}`;
+    if (currency === "EUR") return `€${s}`;
+    if (currency && currency !== "LCU") return `${s} ${currency}`;
+    return s;
+  }
+
+  function topLabel(p) {
+    // "est. top X%" where X = 100 - p, integer display
+    if (p == null) return "—";
+    const top = Math.max(0.1, 100 - p);
+    const shown = top >= 10 ? Math.round(top) : (top >= 1 ? Math.round(top * 10) / 10 : Math.round(top * 10) / 10);
+    return `est. top ${shown}%`;
+  }
+
+  function topLabelPlain(p) {
+    // without "est. " prefix — for global clause
+    if (p == null) return "—";
+    return topLabel(p).replace(/^est\. /, "");
+  }
+
+  /** Presentation: cost % from dest/home; buying-power secondary = home/dest (stretch). */
+  function costVsHome(homePli, destPli) {
+    if (!(homePli > 0) || !(destPli > 0) || !Number.isFinite(homePli) || !Number.isFinite(destPli)) {
+      return { buyingPower: null, stretch: null, primary: null, pctAbs: null };
+    }
+    const priceRatio = destPli / homePli; // >1 = dest more expensive
+    const stretch = homePli / destPli;    // buying power vs home (code stretch)
+    const buyingPower = stretch;          // public secondary metric (0.79× when 26% more)
+    const pct = (priceRatio - 1) * 100;
+    let primary;
+    if (Math.abs(pct) < 0.5) primary = "Same lifestyle costs about the same as at home.";
+    else if (pct > 0) primary = `Same lifestyle costs ${Math.round(pct)}% more than at home.`;
+    else primary = `Same lifestyle costs ${Math.round(-pct)}% less than at home.`;
+    return { buyingPower, stretch, primary, pctAbs: Math.abs(pct) };
+  }
+
+  function priceLevelPlain(destPli, homePli) {
+    if (!(destPli > 0) || !Number.isFinite(destPli)) return null;
+    const ofUs = Math.round(destPli * 100);
+    if (!(homePli > 0) || !Number.isFinite(homePli)) {
+      return `About ${ofUs}% of US prices.`;
+    }
+    const vsHome = (destPli / homePli - 1) * 100;
+    if (Math.abs(vsHome) < 0.5) return `About ${ofUs}% of US prices; about the same as home.`;
+    if (vsHome > 0) return `About ${ofUs}% of US prices; ${Math.round(vsHome)}% higher than home.`;
+    return `About ${ofUs}% of US prices; ${Math.round(-vsHome)}% lower than home.`;
+  }
+
+  // ---------- State ----------
+  let DATA = null;
+  let byIso = {};
+  let rowsCache = [];
+  let sortKey = "pct";
+  let sortDir = -1; // default highest local percentile
+  let lastCopyText = "";
+  let countriesSorted = [];
+
+  const PEER_ISOS = ["USA", "GBR", "ARE", "SGP", "DEU"];
+
+  const el = (id) => document.getElementById(id);
+
+  function showError(msg) {
+    el("status").textContent = msg;
+    el("status").classList.remove("hidden");
+    el("results").classList.add("hidden");
+  }
+
+  function clearError() {
+    el("status").classList.add("hidden");
+  }
+
+  function setupPicker(inputId, hiddenId, listId, { allowEmpty, emptyLabel }) {
+    const input = el(inputId);
+    const hidden = el(hiddenId);
+    const list = el(listId);
+
+    function options(filter) {
+      const q = (filter || "").trim().toLowerCase();
+      const out = [];
+      if (allowEmpty) {
+        if (!q || "all countries".includes(q)) {
+          out.push({ iso3: "", name: emptyLabel || "All countries" });
+        }
+      }
+      for (const c of countriesSorted) {
+        const label = `${c.name} (${c.iso3})`;
+        if (!q || label.toLowerCase().includes(q) || c.iso3.toLowerCase().includes(q)) {
+          out.push({ iso3: c.iso3, name: label });
+        }
+      }
+      return out.slice(0, 40);
+    }
+
+    function renderList(filter) {
+      const opts = options(filter);
+      list.innerHTML = opts.map((o, i) =>
+        `<button type="button" role="option" data-iso="${o.iso3}" class="${i === 0 ? "active" : ""}">${escapeHtml(o.name)}</button>`
+      ).join("");
+      list.classList.add("open");
+    }
+
+    function setValue(iso3, silent) {
+      hidden.value = iso3 || "";
+      if (!iso3) {
+        input.value = allowEmpty ? "" : input.value;
+        if (allowEmpty) input.placeholder = emptyLabel || "All countries";
+      } else if (byIso[iso3]) {
+        input.value = `${byIso[iso3].name} (${iso3})`;
+      }
+      if (!silent) {
+        hidden.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }
+
+    input.addEventListener("focus", () => renderList(input.value.includes("(") ? "" : input.value));
+    input.addEventListener("input", () => {
+      renderList(input.value);
+    });
+    input.addEventListener("keydown", (e) => {
+      const btns = [...list.querySelectorAll("button")];
+      const idx = btns.findIndex(b => b.classList.contains("active"));
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        const n = Math.min(btns.length - 1, idx + 1);
+        btns.forEach(b => b.classList.remove("active"));
+        if (btns[n]) btns[n].classList.add("active");
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        const n = Math.max(0, idx - 1);
+        btns.forEach(b => b.classList.remove("active"));
+        if (btns[n]) btns[n].classList.add("active");
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const a = list.querySelector("button.active") || btns[0];
+        if (a) {
+          setValue(a.dataset.iso);
+          list.classList.remove("open");
+        }
+      } else if (e.key === "Escape") {
+        list.classList.remove("open");
+      }
+    });
+    list.addEventListener("mousedown", (e) => {
+      const btn = e.target.closest("button[data-iso]");
+      if (!btn) return;
+      e.preventDefault();
+      setValue(btn.dataset.iso);
+      list.classList.remove("open");
+    });
+    document.addEventListener("click", (e) => {
+      if (!input.contains(e.target) && !list.contains(e.target)) list.classList.remove("open");
+    });
+
+    return { setValue, getValue: () => hidden.value };
+  }
+
+  let homePicker, destPicker;
+
+  function populateSelects() {
+    countriesSorted = DATA.countries.slice().sort((a, b) => a.name.localeCompare(b.name));
+    homePicker = setupPicker("homeInput", "home", "homeList", { allowEmpty: false });
+    destPicker = setupPicker("destInput", "dest", "destList", { allowEmpty: true, emptyLabel: "All countries" });
+
+    // Default open: home India (INR), destination United States
+    if (byIso.IND) homePicker.setValue("IND", true);
+    else if (byIso.USA) homePicker.setValue("USA", true);
+    else if (countriesSorted[0]) homePicker.setValue(countriesSorted[0].iso3, true);
+    if (byIso.USA) destPicker.setValue("USA", true);
+
+    const regions = [...new Set(countriesSorted.map(c => c.region).filter(Boolean))].sort();
+    const fr = el("fRegion");
+    fr.innerHTML = '<option value="">All regions</option>';
+    for (const r of regions) {
+      const o = document.createElement("option");
+      o.value = r;
+      o.textContent = r;
+      fr.appendChild(o);
+    }
+  }
+
+  function updateCurrencyHint() {
+    const home = byIso[el("home").value];
+    const cur = home ? home.currency : "LCU";
+    el("currencyHint").textContent =
+      `Income is annual, in the home country's currency (${cur}).`;
+  }
+
+  function readParams() {
+    const q = new URLSearchParams(location.search);
+    if (q.get("income")) {
+      const n = parseIncome(q.get("income"));
+      if (n > 0) {
+        const homeIso = (q.get("home") && byIso[q.get("home")]) ? q.get("home") : el("home").value;
+        const home = byIso[homeIso];
+        el("income").value = formatIncomeInput(n, home && home.currency, homeIso);
+      }
+    }
+    if (q.get("type") === "gross" || q.get("type") === "net") el("itype").value = q.get("type");
+    if (q.get("home") && byIso[q.get("home")]) homePicker.setValue(q.get("home"), true);
+    if (q.has("dest")) {
+      const d = q.get("dest");
+      if (d === "" || byIso[d]) destPicker.setValue(d, true);
+    }
+  }
+
+  function writeParams() {
+    const q = new URLSearchParams();
+    const incomeLocal = parseIncome(el("income").value);
+    q.set("income", String(incomeLocal > 0 ? Math.round(incomeLocal) : ""));
+    q.set("home", el("home").value);
+    q.set("type", el("itype").value);
+    if (el("dest").value) q.set("dest", el("dest").value);
+    const url = location.pathname + "?" + q.toString();
+    history.replaceState(null, "", url);
+  }
+
+  function computeRow(home, dest, pppIncome, incomeLocal) {
+    const reliable = isReliable(dest) && isReliable(home);
+    let stretch = null;
+    let equiv = null;
+    let fxLocal = null;
+    if (reliable) {
+      stretch = home.pli_us / dest.pli_us;
+      equiv = pppIncome * dest.ppp;
+      const incomeUsd = incomeLocal / home.fx;
+      fxLocal = incomeUsd * dest.fx;
+    }
+    const p = reliable ? localPercentile(pppIncome, dest.mean_income_ppp, dest.gini) : null;
+    const band = bandFromP(p);
+    return {
+      iso3: dest.iso3,
+      name: dest.name,
+      region: dest.region,
+      currency: dest.currency,
+      pli: reliable ? dest.pli_us * 100 : null,
+      pli_us: dest.pli_us,
+      stretch,
+      equiv,
+      fxLocal,
+      pct: p,
+      band: band.key,
+      bandLabel: band.label,
+      year: dest.ppp_year,
+      gini_imputed: dest.gini_imputed,
+      cheaper: reliable ? dest.pli_us < home.pli_us : false,
+      reliable,
+    };
+  }
+
+  function defaultPeerSet(home, destIso) {
+    const set = new Set(PEER_ISOS);
+    if (home) set.add(home.iso3);
+    if (destIso) set.add(destIso);
+    if (home && home.region) {
+      for (const c of DATA.countries) {
+        if (c.region === home.region) set.add(c.iso3);
+      }
+    }
+    // home neighbors: same-region is enough; also ensure a few near home PLI if home reliable
+    if (home && isReliable(home)) {
+      const peers = DATA.countries
+        .filter(c => isReliable(c) && c.iso3 !== home.iso3)
+        .map(c => ({ iso3: c.iso3, d: Math.abs(c.pli_us - home.pli_us) }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 5);
+      for (const p of peers) set.add(p.iso3);
+    }
+    return set;
+  }
+
+  function recompute(opts) {
+    opts = opts || {};
+    if (!DATA) return;
+    clearError();
+    const incomeLocal = parseIncome(el("income").value);
+    const home = byIso[el("home").value];
+    if (!home) { showError("Select a home country."); return; }
+    if (!(incomeLocal > 0)) { showError("Enter a positive annual income."); return; }
+    if (!isReliable(home)) { showError("Home country has unreliable price data. Pick another."); return; }
+
+    // Reformat income display (skip while typing)
+    if (opts.formatIncome !== false) {
+      el("income").value = formatIncomeInput(incomeLocal, home.currency, home.iso3);
+    }
+
+    updateCurrencyHint();
+    writeParams();
+
+    const pppIncome = incomeLocal / home.ppp;
+    const homeP = localPercentile(pppIncome, home.mean_income_ppp, home.gini);
+    const homeBand = bandFromP(homeP);
+    const globP = globalPercentile(pppIncome);
+    const itype = el("itype").value === "gross" ? "gross" : "net";
+
+    // Home card
+    el("homeCard").innerHTML = `
+      <h2>Home · ${escapeHtml(home.name)}</h2>
+      <div class="metric"><div class="k">Income (local)</div><div class="v">${fmtMoney(incomeLocal, home.currency, home.iso3)}</div>
+        <div class="s">${itype}</div></div>
+      <div class="metric"><div class="k">Income (PPP Int$)</div><div class="v">about $${fmtInt(pppIncome)} in US purchasing power (PPP Int$)</div></div>
+      <div class="metric"><div class="k">Price level vs US</div><div class="v">${fmtInt(home.pli_us * 100)} <span style="color:var(--muted);font-size:0.8rem;font-weight:400">(US=100)</span></div>
+        <div class="s">${priceLevelPlain(home.pli_us, 1) || ""}</div></div>
+      <div class="metric"><div class="k">Home rank</div><div class="v">${topLabel(homeP)} <span class="band-pill band-${homeBand.key}">${homeBand.label}</span></div>
+        ${home.gini_imputed ? '<div class="s">Gini imputed</div>' : ""}</div>
+      <div class="metric"><div class="k">Global (rough)</div><div class="v" style="font-size:0.95rem;font-weight:500;color:var(--muted)">${topLabel(globP)}</div></div>
+    `;
+
+    // All rows
+    rowsCache = DATA.countries.map(c => computeRow(home, c, pppIncome, incomeLocal));
+
+    const destIso = el("dest").value;
+    const destCard = el("destCard");
+    let destRow = null;
+    if (destIso && byIso[destIso]) {
+      const dest = byIso[destIso];
+      const r = computeRow(home, dest, pppIncome, incomeLocal);
+      destRow = r;
+      destCard.classList.remove("hidden");
+      if (!r.reliable) {
+        destCard.innerHTML = `
+          <h2>Destination · ${escapeHtml(dest.name)}</h2>
+          <div class="metric"><div class="s muted">Unreliable data — price level / PPP missing or zero. Excluded from rankings.</div></div>
+        `;
+      } else {
+        const cv = costVsHome(home.pli_us, dest.pli_us);
+        const bpShown = (cv.buyingPower != null && isFinite(cv.buyingPower)) ? cv.buyingPower.toFixed(2) : "—";
+        const tip = "Home price level ÷ destination price level. Home = 1.00. Below 1.00 means money buys less than at home.";
+        destCard.innerHTML = `
+          <h2>Destination · ${escapeHtml(dest.name)}</h2>
+          <div class="metric"><div class="k">PPP equivalent (same lifestyle)</div><div class="v">${fmtMoney(r.equiv, dest.currency, dest.iso3)}</div>
+            <div class="s">What you need to live the same</div></div>
+          <div class="metric"><div class="k">FX / wire-transfer view</div><div class="v" style="font-size:1rem">${fmtMoney(r.fxLocal, dest.currency, dest.iso3)}</div>
+            <div class="s">What your paycheck becomes if you just convert cash</div></div>
+          <div class="metric"><div class="k">Price level</div><div class="v">${fmtInt(r.pli)} <span style="color:var(--muted);font-size:0.8rem;font-weight:400">(US=100)</span></div>
+            <div class="s">${priceLevelPlain(dest.pli_us, home.pli_us) || ""}</div></div>
+          <div class="metric"><div class="k">Cost vs home</div><div class="v" style="font-size:1rem;font-weight:600">${escapeHtml(cv.primary)}</div>
+            <div class="s" title="${escapeHtml(tip)}">Buying power vs home: ${bpShown}×</div></div>
+          <div class="metric"><div class="k">Local rank</div><div class="v">${topLabel(r.pct)} <span class="band-pill band-${r.band}">${r.bandLabel}</span></div>
+            ${r.gini_imputed ? '<div class="s">Gini imputed</div>' : ""}</div>
+          <div class="metric"><div class="s">In ${escapeHtml(dest.name)} this is ${r.bandLabel} (${topLabel(r.pct)}).</div></div>
+        `;
+      }
+    } else {
+      destCard.innerHTML = `
+        <h2>Destination</h2>
+        <div class="metric"><div class="s">Pick a destination to compare PPP equivalent vs FX conversion, or browse the full ranked table below.</div></div>
+      `;
+    }
+
+    // Summary headline — plain language first
+    const lead = `${fmtIncomeLead(incomeLocal, home.currency, home.iso3)} ${itype}`;
+    let headline =
+      `${lead} in ${home.name} is ${topLabel(homeP)} at home (${homeBand.label}), roughly global ${topLabelPlain(globP)}.`;
+    if (destRow && destRow.reliable) {
+      headline += ` The same purchasing power is ${destRow.bandLabel} in ${destRow.name} (${topLabel(destRow.pct)}).`;
+    }
+    el("summaryText").textContent = headline;
+
+    // Tweet-shaped copy summary
+    lastCopyText = buildCopySummary({
+      incomeLocal, home, itype, homeP, homeBand, destRow, pppIncome
+    });
+
+    // Tiles — reliable only
+    const reliableRows = rowsCache.filter(r => r.reliable);
+    const comfortPlus = reliableRows
+      .filter(r => bandRank(r.band) >= 2)
+      .slice()
+      .sort((a, b) => a.pli_us - b.pli_us)
+      .slice(0, 5);
+    el("cheap5").innerHTML = comfortPlus.map(r =>
+      `<li>${escapeHtml(r.name)} · PLI ${fmtInt(r.pli)} · ${r.band} · ${topLabel(r.pct)}</li>`
+    ).join("") || "<li>None</li>";
+
+    const top5 = reliableRows.slice().sort((a, b) => (b.pct || 0) - (a.pct || 0)).slice(0, 5);
+    el("rank5").innerHTML = top5.map(r =>
+      `<li>${escapeHtml(r.name)} · ${topLabel(r.pct)} · <span class="band-pill band-${r.band}">${r.band}</span></li>`
+    ).join("");
+
+    renderTable();
+    el("results").classList.remove("hidden");
+  }
+
+  function buildCopySummary({ incomeLocal, home, itype, homeP, homeBand, destRow, pppIncome }) {
+    const lead = `${fmtIncomeLead(incomeLocal, home.currency, home.iso3)} ${itype}`;
+    const parts = [
+      `${lead} · ${home.name} → ${destRow ? destRow.name : "world"}`,
+      `Home: ${topLabel(homeP)} (${homeBand.label})`,
+    ];
+    if (destRow && destRow.reliable) {
+      const cv = costVsHome(home.pli_us, destRow.pli_us);
+      parts.push(`Dest: ${topLabel(destRow.pct)} (${destRow.bandLabel})`);
+      if (cv.buyingPower != null) {
+        const pct = (cv.buyingPower - 1) * 100;
+        if (Math.abs(pct) >= 0.5) {
+          parts.push(pct > 0 ? `${Math.round(pct)}% more expensive` : `${Math.round(-pct)}% less expensive`);
+        }
+      }
+      parts.push(`PPP equiv ${fmtMoney(destRow.equiv, destRow.currency, destRow.iso3)}`);
+      if (destRow.fxLocal != null) parts.push(`FX ${fmtMoney(destRow.fxLocal, destRow.currency, destRow.iso3)}`);
+    }
+    return parts.join(" · ");
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function filteredRows() {
+    const region = el("fRegion").value;
+    const bandF = el("fBand").value;
+    const search = (el("fSearch").value || "").trim().toLowerCase();
+    const cheaper = el("fCheaper").checked;
+    const showAll = el("fShowAll").checked;
+    const home = byIso[el("home").value];
+    const destIso = el("dest").value;
+    const peers = showAll ? null : defaultPeerSet(home, destIso);
+
+    // Peer subset is only for the default glance. Any active filter widens to all reliable countries.
+    const widen = !!(bandF || region || search || cheaper || showAll);
+    return rowsCache.filter(r => {
+      if (!r.reliable) {
+        // Unreliable rows only when Show all is on and no band/region/search/cheaper filter
+        if (!(showAll && !bandF && !region && !search && !cheaper)) return false;
+      }
+      if (!widen) {
+        if (peers && !peers.has(r.iso3)) return false;
+      }
+      if (region && r.region !== region) return false;
+      if (cheaper && !r.cheaper) return false;
+      if (bandF) {
+        // Exact bands + cumulative shortcuts. Single-band / + filters search all reliable rows
+        // (not just the default peer subset), otherwise King/Affluent often looks "empty".
+        if (bandF === "Comfortable+") {
+          if (bandRank(r.band) < 2) return false;
+        } else if (bandF === "Affluent+") {
+          if (bandRank(r.band) < 3) return false;
+        } else if (bandF === "Stretched" || bandF === "Normal" || bandF === "Comfortable"
+                   || bandF === "Affluent" || bandF === "King") {
+          if (r.band !== bandF) return false;
+        }
+      }
+      if (search && !(`${r.name} ${r.iso3}`.toLowerCase().includes(search))) return false;
+      return true;
+    });
+  }
+
+  function renderTable() {
+    let rows = filteredRows();
+    const key = sortKey;
+    const dir = sortDir;
+    const destIso = el("dest").value;
+
+    rows.sort((a, b) => {
+      // Push unreliable to end always
+      if (a.reliable !== b.reliable) return a.reliable ? -1 : 1;
+      let av = a[key], bv = b[key];
+      if (key === "band") { av = bandRank(a.band); bv = bandRank(b.band); }
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      if (typeof av === "string") return dir * av.localeCompare(bv);
+      return dir * (av - bv);
+    });
+
+    document.querySelectorAll("thead th").forEach(th => {
+      th.classList.toggle("sorted", th.dataset.sort === sortKey);
+    });
+
+    const tb = el("tbody");
+    const html = rows.map(r => {
+      const selected = destIso && r.iso3 === destIso ? " row-selected" : "";
+      const unreliable = !r.reliable;
+      const barW = r.pli != null ? Math.min(100, (r.pli / 160) * 100) : 0;
+      const crown = r.band === "King" ? " ♛" : "";
+      const title = r.gini_imputed ? ' title="Gini imputed"' : "";
+      const stretchCell = unreliable || r.stretch == null || !isFinite(r.stretch)
+        ? '<span class="muted">Unreliable data</span>'
+        : `${r.stretch.toFixed(2)}×`;
+      const pliCell = unreliable || r.pli == null
+        ? '<span class="muted">—</span>'
+        : `<span class="pli-bar"><span class="fill" style="width:${barW}%"></span><span class="tick"></span></span>${fmtInt(r.pli)}`;
+      return `<tr class="row-${r.band}${selected}${unreliable ? " row-unreliable" : ""}">
+        <td>${escapeHtml(r.name)}<span class="iso">${r.iso3}</span>${crown}</td>
+        <td>${pliCell}</td>
+        <td>${stretchCell}</td>
+        <td>${unreliable ? "—" : fmtMoney(r.equiv, r.currency, r.iso3)}</td>
+        <td${title}>${r.pct == null ? "—" : Math.round(r.pct)}${r.gini_imputed ? " *" : ""}</td>
+        <td>${unreliable ? '<span class="muted">—</span>' : `<span class="band-pill band-${r.band}">${r.band === "King" ? "Locally king" : r.band === "Normal" ? "Normal local life" : r.band}</span>`}</td>
+        <td>${r.year || "—"}</td>
+      </tr>`;
+    }).join("");
+    tb.innerHTML = html || `<tr><td colspan="7" style="color:var(--muted);padding:16px">No countries match filters.</td></tr>`;
+  }
+
+  // ---------- Selftest ----------
+  window.__kingSelftest = function () {
+    const fails = [];
+    if (!DATA) { console.log("FAIL: no data"); return false; }
+    const usa = byIso.USA, ind = byIso.IND, che = byIso.CHE;
+    if (!usa || usa.pli_us < 0.95 || usa.pli_us > 1.05) fails.push(`USA pli_us=${usa && usa.pli_us}`);
+    if (!ind || !(ind.pli_us < 0.40)) fails.push(`IND pli_us=${ind && ind.pli_us}`);
+    if (!che || !(che.pli_us > 1.10)) fails.push(`CHE pli_us=${che && che.pli_us}`);
+    if (usa && ind && che) {
+      const ppp = 80000 / usa.ppp;
+      const pInd = localPercentile(ppp, ind.mean_income_ppp, ind.gini);
+      const pChe = localPercentile(ppp, che.mean_income_ppp, che.gini);
+      if (!(pInd > pChe)) fails.push(`US$80k IND pct ${pInd} not > CHE ${pChe}`);
+    }
+    if (fails.length) {
+      console.log("FAIL", fails);
+      return false;
+    }
+    console.log("PASS");
+    return true;
+  };
+
+  // Expose presentation helpers for node verify (also used above)
+  window.__kingHelpers = {
+    isReliable, costVsHome, topLabel, bandFromP, localPercentile, globalPercentile, parseIncome
+  };
+
+  // ---------- Live WB fallback (optional) ----------
+  async function liveFetchFallback() {
+    throw new Error("snapshot missing");
+  }
+
+  async function loadData() {
+    try {
+      const res = await fetch("./data/countries.json");
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      DATA = await res.json();
+    } catch (e) {
+      try {
+        await liveFetchFallback();
+      } catch (_) {
+        showError("Drop data/countries.json next to index.html");
+        return;
+      }
+    }
+    byIso = {};
+    for (const c of DATA.countries) byIso[c.iso3] = c;
+    populateSelects();
+    readParams();
+    updateCurrencyHint();
+    const years = DATA.countries.map(c => c.ppp_year).filter(Boolean);
+    const yMin = Math.min(...years), yMax = Math.max(...years);
+    el("metaNote").textContent =
+      `Snapshot: ${DATA.meta.generated_at} · ${DATA.countries.length} countries · data years ${yMin}–${yMax} · ${DATA.meta.source}`;
+    recompute();
+  }
+
+  // Events
+  function onFieldChange() { recompute(); }
+
+  el("income").addEventListener("change", () => recompute({ formatIncome: true }));
+  el("income").addEventListener("input", () => recompute({ formatIncome: false }));
+  el("itype").addEventListener("change", onFieldChange);
+  el("home").addEventListener("change", () => { updateCurrencyHint(); onFieldChange(); });
+  el("dest").addEventListener("change", onFieldChange);
+  el("rankBtn").addEventListener("click", recompute);
+  ["fRegion", "fBand", "fCheaper", "fShowAll"].forEach(id => el(id).addEventListener("change", renderTable));
+  el("fSearch").addEventListener("input", renderTable);
+  document.querySelectorAll("thead th[data-sort]").forEach(th => {
+    th.addEventListener("click", () => {
+      const k = th.dataset.sort;
+      if (sortKey === k) sortDir *= -1;
+      else { sortKey = k; sortDir = (k === "name" || k === "band") ? 1 : -1; }
+      renderTable();
+    });
+  });
+  el("copyBtn").addEventListener("click", async () => {
+    const t = lastCopyText || el("summaryText").textContent;
+    try {
+      await navigator.clipboard.writeText(t);
+      el("copyBtn").textContent = "Copied";
+      setTimeout(() => { el("copyBtn").textContent = "Copy summary"; }, 1200);
+    } catch (_) {
+      el("copyBtn").textContent = "Copy failed";
+    }
+  });
+  el("copyUrlBtn").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      el("copyUrlBtn").textContent = "Link copied";
+      setTimeout(() => { el("copyUrlBtn").textContent = "Copy link"; }, 1200);
+    } catch (_) {
+      el("copyUrlBtn").textContent = "Copy failed";
+    }
+  });
+
+
+  // ---------- Theme ----------
+  function applyTheme(theme) {
+    if (theme !== "light" && theme !== "dark") theme = "light";
+    document.documentElement.setAttribute("data-theme", theme);
+    try { localStorage.setItem("kingindex-theme", theme); } catch (_) {}
+    const btn = el("themeToggle");
+    if (btn) {
+      const next = theme === "dark" ? "light" : "dark";
+      btn.setAttribute("aria-label", "Switch to " + next + " theme");
+      btn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+      const icon = btn.querySelector(".theme-icon");
+      const label = btn.querySelector(".theme-label");
+      if (icon) icon.textContent = theme === "dark" ? "☀" : "☾";
+      if (label) label.textContent = theme === "dark" ? "Light" : "Dark";
+    }
+  }
+  (function initTheme() {
+    let t = "light";
+    try {
+      const saved = localStorage.getItem("kingindex-theme");
+      if (saved === "light" || saved === "dark") t = saved;
+    } catch (_) {}
+    applyTheme(t);
+  })();
+  el("themeToggle").addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    applyTheme(cur === "dark" ? "light" : "dark");
+  });
+
+  loadData();
+})();
+</script>
+</body>
+</html>
