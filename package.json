@@ -2,9 +2,9 @@
   "name": "ppp-index-calculator",
   "version": "1.0.0",
   "private": true,
-  "description": "KingIndex — static PPP relative-class calculator (Cloudflare Workers assets)",
+  "description": "KingIndex \u2014 static PPP relative-class calculator (Cloudflare Workers assets)",
   "scripts": {
-    "sync-assets": "mkdir -p public/data && cp index.html public/index.html && cp data/countries.json public/data/countries.json",
+    "sync-assets": "mkdir -p public/data && cp index.html public/index.html && cp app.js public/app.js && cp data/countries.json public/data/countries.json",
     "deploy": "npm run sync-assets && wrangler deploy",
     "dev": "npm run sync-assets && wrangler dev"
   },

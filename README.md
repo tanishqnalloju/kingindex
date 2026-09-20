@@ -1,58 +1,71 @@
 # KingIndex
 
 **Live:** [kingindex.tanishqnalloju.com](https://kingindex.tanishqnalloju.com)  
-Legacy: `ppp-index-calculator.tanishqnalloju.com` → 301 redirect (query string preserved). · [workers.dev](https://ppp-index-calculator.tanishq-nalloju.workers.dev)
+Legacy: `ppp-index-calculator.tanishqnalloju.com` → 301 redirect (query string preserved).
 
-**Same paycheck. Different class.**
+**Lab · Multiple of local median**
 
-KingIndex is a relative-class translator: take an annual income and a home country, convert it with World Bank private-consumption PPP, estimate local (and rough global) percentiles via a Gini-calibrated lognormal, and rank countries by how rich that paycheck makes you locally. “King” is reserved for the local top 1% (est. p ≥ 99).
+KingIndex converts an annual income (home currency) into PPP international dollars and compares it to World Bank **PIP national medians**. The core number is **× local median**, not percentile crowns.
 
-It is a single static page plus a baked data snapshot. No accounts, no API keys, no backend.
+It is a static page + baked snapshot (`data/countries.json`). No accounts, no API keys, no backend.
 
 ## How to run
 
 ```bash
-python3 scripts/fetch_data.py   # rebuilds data/countries.json from World Bank
-# then open index.html in a browser, or:
-python3 -m http.server 8080     # from this directory, visit http://localhost:8080
+python3 scripts/fetch_pip.py      # PIP medians → data/pip_medians.json
+python3 scripts/fetch_data.py     # WDI + merge PIP → data/countries.json
+npm run sync-assets               # copy into public/ for Workers
+python3 -m http.server 8080       # open http://localhost:8080
+node scripts/verify_median.js     # IND ₹800k → BGD fixture
 ```
 
 ## Formulas
 
 ```
-ppp_income     = income_local / home.ppp
-equiv_local    = ppp_income * dest.ppp          # same PPP lifestyle
-income_usd     = income_local / home.fx
-fx_local       = income_usd * dest.fx           # wire-transfer view
-pli_us         = ppp / fx                       # US ≈ 1.0
-stretch        = home.pli_us / dest.pli_us      # >1 = dest cheaper
+income_per_capita = income / household_size
+your_ppp_income   = income_per_capita / home.ppp
+multiple_of_median = your_ppp_income / dest.median_ppp_annual
 
-# Local percentile: country ~ LogNormal from mean (GNI/GDP pc PPP) + Gini
-σ = √2 · Φ⁻¹((g + 1) / 2)     # g = Gini/100 clamped to [0.20, 0.65]
-μ = ln(m) - σ² / 2
-p = Φ((ln(ppp_income) - μ) / σ) · 100
+equivalent_local  = (income / home.ppp) * dest.ppp   # household income
+fx_local          = (income / home.fx) * dest.fx
+cost_%_vs_home    = (dest.pli_us / home.pli_us - 1) * 100
+pli_us            = ppp / fx                         # US ≈ 1.0
 ```
 
-Global percentile uses a fixed log-income calibration curve (rough ballpark, not WID/PIP official).
+Share URL params: `income`, `home`, `type`, `dest`, optional `household_size` (default 1).
 
 ## Data
 
-- Source: World Bank World Development Indicators (most recent non-empty per indicator via `mrnev=1`).
-- Prefer private-consumption PPP (`PA.NUS.PRVT.PP`); fall back to GDP PPP (`PA.NUS.PPP`).
-- Price level = consumption PPP / official FX (`PA.NUS.FCRF`).
-- Typical income proxy: GNI per capita PPP, else GDP per capita PPP.
-- Gini from `SI.POV.GINI`; if missing, imputed at 38.
-- Snapshot path: `data/countries.json` (see `meta.generated_at` for vintage).
+- **Prices:** World Bank WDI private-consumption PPP (`PA.NUS.PRVT.PP`) / official FX (`PA.NUS.FCRF`).
+- **Medians:** World Bank PIP API `https://api.worldbank.org/pip/v1/pip` — national, prefer latest non-interpolated survey; daily median annualized ×365 → `median_ppp_annual`.
+- Also store `welfare_type`, `survey_year`, `ppp_base_year`.
+- **Exclusions** (iso3 + reason) in `meta.exclusions` + old-survey cutoff + unreliable PLI floor (~5% of US). Plot = reliable PLI ∩ median − exclusions.
+- No Gini imputation for the Y axis. No Infinity/NaN on the scatter.
 
-Percentiles are **estimates**, not official PIP / household-survey microdata percentiles.
+### Self-check: ₹800,000 net · home=IND · dest=BGD · household_size=1
+
+| Metric | Value |
+|---|---|
+| PPP equivalent (BDT) | ~1,408,973 |
+| FX (BDT) | ~1,119,073 |
+| Cost % vs home | ~+25.9% (Bangladesh more expensive than India on PLI) |
+| × BGD median | ~17.89× |
+| Welfare / survey | consumption · 2022 |
+
+(Exact figures follow the baked snapshot; re-run `verify_median.js` after refresh.)
+
+## UI notes
+
+- **Primary:** home/dest cards + summary emphasize **× median**, PPP equiv, FX, cost % vs home.
+- **Secondary:** “Lab: × median map” log-log scatter + log income slider (below cards).
+- Band filter lists exact tags only (no Comfortable+ / Affluent+). Public copy uses **cost vs home**, not “stretch”.
+- Crowns / “Locally king” / top 0.1% are not the hero product.
 
 ## What it is not
 
-- Not a tax / take-home calculator (you choose gross vs net yourself).
-- Not city-level (Lisbon ≠ Portugal).
-- Not housing quality, safety, visas, or healthcare advice.
-- Not a PPP “tracker” chart bot.
-- Not relocation or career advice — use it to **rank** places for purchasing-power class.
+- Not a tax / take-home calculator (you choose gross vs net).
+- Not city-level. Not housing, visas, or school fees.
+- Not advice to relocate.
 
 ## License
 

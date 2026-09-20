@@ -1,0 +1,1771 @@
+{
+  "meta": {
+    "generated_at": "2026-09-20T12:29:19Z",
+    "source": "World Bank Poverty and Inequality Platform (PIP) API v1",
+    "endpoint": "https://api.worldbank.org/pip/v1/pip",
+    "ppp_base_year": 2021,
+    "notes": "median is daily welfare in PPP Int$; annualized ×365. National, prefer non-interpolated latest survey.",
+    "exclusions": [
+      {
+        "iso3": "TKM",
+        "reason": "Collapsed official FX (junk PLI)"
+      },
+      {
+        "iso3": "ZWE",
+        "reason": "Collapsed official FX (junk PLI)"
+      },
+      {
+        "iso3": "LBR",
+        "reason": "Collapsed official FX (junk PLI)"
+      },
+      {
+        "iso3": "ARG",
+        "reason": "Hyperinflation / FX collapse (PLI far below floor)"
+      },
+      {
+        "iso3": "VEN",
+        "reason": "Missing or broken FX"
+      },
+      {
+        "iso3": "AFG",
+        "reason": "Conflict / survey reliability"
+      },
+      {
+        "iso3": "SYR",
+        "reason": "Conflict"
+      },
+      {
+        "iso3": "YEM",
+        "reason": "Conflict"
+      },
+      {
+        "iso3": "SSD",
+        "reason": "Conflict"
+      },
+      {
+        "iso3": "SOM",
+        "reason": "Conflict / missing reliable series"
+      },
+      {
+        "iso3": "ERI",
+        "reason": "Very old / unreliable survey series"
+      },
+      {
+        "iso3": "PRK",
+        "reason": "No usable survey median"
+      }
+    ]
+  },
+  "countries": [
+    {
+      "iso3": "AGO",
+      "median_ppp_daily": 3.8795,
+      "median_ppp_annual": 1416.02,
+      "welfare_type": "consumption",
+      "survey_year": 2018.17,
+      "reporting_year": 2018,
+      "ppp_pip": 203.6887,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ALB",
+      "median_ppp_daily": 12.8386,
+      "median_ppp_annual": 4686.09,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "reporting_year": 2020,
+      "ppp_pip": 50.7723,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ARE",
+      "median_ppp_daily": 76.5188,
+      "median_ppp_annual": 27929.36,
+      "welfare_type": "income",
+      "survey_year": 2018.0,
+      "reporting_year": 2018,
+      "ppp_pip": 2.7276,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ARM",
+      "median_ppp_daily": 8.5456,
+      "median_ppp_annual": 3119.14,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 164.2265,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "AUS",
+      "median_ppp_daily": 59.7066,
+      "median_ppp_annual": 21792.91,
+      "welfare_type": "income",
+      "survey_year": 2020.0,
+      "reporting_year": 2020,
+      "ppp_pip": 1.5099,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "AUT",
+      "median_ppp_daily": 71.4395,
+      "median_ppp_annual": 26075.42,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.7538,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "AZE",
+      "median_ppp_daily": 9.3495,
+      "median_ppp_annual": 3412.57,
+      "welfare_type": "consumption",
+      "survey_year": 2005.0,
+      "reporting_year": 2005,
+      "ppp_pip": 0.4828,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BDI",
+      "median_ppp_daily": 2.0074,
+      "median_ppp_annual": 732.7,
+      "welfare_type": "consumption",
+      "survey_year": 2020.15,
+      "reporting_year": 2020,
+      "ppp_pip": 657.4093,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BEL",
+      "median_ppp_daily": 62.8872,
+      "median_ppp_annual": 22953.83,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.7786,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BEN",
+      "median_ppp_daily": 4.2001,
+      "median_ppp_annual": 1533.04,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "reporting_year": 2021,
+      "ppp_pip": 219.0111,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BFA",
+      "median_ppp_daily": 3.3737,
+      "median_ppp_annual": 1231.4,
+      "welfare_type": "consumption",
+      "survey_year": 2021.67,
+      "reporting_year": 2021,
+      "ppp_pip": 192.5042,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BGD",
+      "median_ppp_daily": 6.1749,
+      "median_ppp_annual": 2253.84,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 29.2149,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BGR",
+      "median_ppp_daily": 30.1827,
+      "median_ppp_annual": 11016.69,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.7449,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BIH",
+      "median_ppp_daily": 15.7931,
+      "median_ppp_annual": 5764.48,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 0.7494,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BLR",
+      "median_ppp_daily": 18.3853,
+      "median_ppp_annual": 6710.63,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "reporting_year": 2020,
+      "ppp_pip": 7395.8623,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BLZ",
+      "median_ppp_daily": 14.9377,
+      "median_ppp_annual": 5452.26,
+      "welfare_type": "consumption",
+      "survey_year": 2018.2,
+      "reporting_year": 2018,
+      "ppp_pip": 1.1165,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BOL",
+      "median_ppp_daily": 16.8191,
+      "median_ppp_annual": 6138.97,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 2.4478,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BRA",
+      "median_ppp_daily": 16.9121,
+      "median_ppp_annual": 6172.92,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 2.4499,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BRB",
+      "median_ppp_daily": 15.4901,
+      "median_ppp_annual": 5653.89,
+      "welfare_type": "consumption",
+      "survey_year": 2016.0,
+      "reporting_year": 2016,
+      "ppp_pip": 2.6373,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BTN",
+      "median_ppp_daily": 16.4896,
+      "median_ppp_annual": 6018.7,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 21.3612,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "BWA",
+      "median_ppp_daily": 5.8343,
+      "median_ppp_annual": 2129.52,
+      "welfare_type": "consumption",
+      "survey_year": 2015.85,
+      "reporting_year": 2015,
+      "ppp_pip": 5.0984,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CAF",
+      "median_ppp_daily": 1.9246,
+      "median_ppp_annual": 702.48,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 276.3265,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CAN",
+      "median_ppp_daily": 64.7213,
+      "median_ppp_annual": 23623.27,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 1.2482,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CHE",
+      "median_ppp_daily": 72.289,
+      "median_ppp_annual": 26385.49,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 1.2456,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CHL",
+      "median_ppp_daily": 24.5707,
+      "median_ppp_annual": 8968.31,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 474.341,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CHN",
+      "median_ppp_daily": 13.3632,
+      "median_ppp_annual": 4877.57,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": null,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CIV",
+      "median_ppp_daily": 4.7589,
+      "median_ppp_annual": 1737.0,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "reporting_year": 2021,
+      "ppp_pip": 238.54,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CMR",
+      "median_ppp_daily": 4.9854,
+      "median_ppp_annual": 1819.67,
+      "welfare_type": "consumption",
+      "survey_year": 2021.67,
+      "reporting_year": 2021,
+      "ppp_pip": 201.4929,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "COD",
+      "median_ppp_daily": 1.316,
+      "median_ppp_annual": 480.34,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "reporting_year": 2020,
+      "ppp_pip": 928.6025,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "COG",
+      "median_ppp_daily": 3.7648,
+      "median_ppp_annual": 1374.15,
+      "welfare_type": "consumption",
+      "survey_year": 2011.67,
+      "reporting_year": 2011,
+      "ppp_pip": 242.334,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "COL",
+      "median_ppp_daily": 11.2784,
+      "median_ppp_annual": 4116.62,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 1506.5522,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "COM",
+      "median_ppp_daily": 6.4785,
+      "median_ppp_annual": 2364.65,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 228.0478,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CPV",
+      "median_ppp_daily": 6.1773,
+      "median_ppp_annual": 2254.71,
+      "welfare_type": "consumption",
+      "survey_year": 2015.0,
+      "reporting_year": 2015,
+      "ppp_pip": 54.4045,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CRI",
+      "median_ppp_daily": 23.3897,
+      "median_ppp_annual": 8537.24,
+      "welfare_type": "income",
+      "survey_year": 2025.0,
+      "reporting_year": 2025,
+      "ppp_pip": 363.6524,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CYP",
+      "median_ppp_daily": 52.1397,
+      "median_ppp_annual": 19030.99,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.6229,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "CZE",
+      "median_ppp_daily": 39.0691,
+      "median_ppp_annual": 14260.22,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 13.5776,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "DEU",
+      "median_ppp_daily": 64.1773,
+      "median_ppp_annual": 23424.71,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 0.7405,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "DJI",
+      "median_ppp_daily": 4.7035,
+      "median_ppp_annual": 1716.78,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "reporting_year": 2017,
+      "ppp_pip": 96.9308,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "DNK",
+      "median_ppp_daily": 60.7227,
+      "median_ppp_annual": 22163.79,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 7.2402,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "DOM",
+      "median_ppp_daily": 17.4777,
+      "median_ppp_annual": 6379.36,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 23.1358,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "DZA",
+      "median_ppp_daily": 9.1143,
+      "median_ppp_annual": 3326.72,
+      "welfare_type": "consumption",
+      "survey_year": 2011.17,
+      "reporting_year": 2011,
+      "ppp_pip": 39.3659,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ECU",
+      "median_ppp_daily": 12.7009,
+      "median_ppp_annual": 4635.83,
+      "welfare_type": "income",
+      "survey_year": 2025.0,
+      "reporting_year": 2025,
+      "ppp_pip": 0.4853,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "EGY",
+      "median_ppp_daily": 7.6109,
+      "median_ppp_annual": 2777.98,
+      "welfare_type": "consumption",
+      "survey_year": 2021.77,
+      "reporting_year": 2021,
+      "ppp_pip": 5.0425,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ESP",
+      "median_ppp_daily": 47.3043,
+      "median_ppp_annual": 17266.07,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.6606,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "EST",
+      "median_ppp_daily": 36.5238,
+      "median_ppp_annual": 13331.19,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.6133,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ETH",
+      "median_ppp_daily": 3.4868,
+      "median_ppp_annual": 1272.68,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 13.4368,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "FIN",
+      "median_ppp_daily": 56.4774,
+      "median_ppp_annual": 20614.25,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.8675,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "FJI",
+      "median_ppp_daily": 7.1636,
+      "median_ppp_annual": 2614.71,
+      "welfare_type": "consumption",
+      "survey_year": 2019.15,
+      "reporting_year": 2019,
+      "ppp_pip": 0.9449,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "FRA",
+      "median_ppp_daily": 57.2105,
+      "median_ppp_annual": 20881.83,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.7665,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "FSM",
+      "median_ppp_daily": 4.6645,
+      "median_ppp_annual": 1702.54,
+      "welfare_type": "consumption",
+      "survey_year": 2013.0,
+      "reporting_year": 2013,
+      "ppp_pip": 0.9495,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GAB",
+      "median_ppp_daily": 11.3076,
+      "median_ppp_annual": 4127.27,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "reporting_year": 2017,
+      "ppp_pip": 300.235,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GBR",
+      "median_ppp_daily": 54.5535,
+      "median_ppp_annual": 19912.03,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 0.7205,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GEO",
+      "median_ppp_daily": 8.7715,
+      "median_ppp_annual": 3201.6,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 1.0735,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GHA",
+      "median_ppp_daily": 3.7227,
+      "median_ppp_annual": 1358.79,
+      "welfare_type": "consumption",
+      "survey_year": 2016.75,
+      "reporting_year": 2016,
+      "ppp_pip": 2.4542,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GIN",
+      "median_ppp_daily": 5.6545,
+      "median_ppp_annual": 2063.89,
+      "welfare_type": "consumption",
+      "survey_year": 2018.5,
+      "reporting_year": 2018,
+      "ppp_pip": 3471.7836,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GMB",
+      "median_ppp_daily": 4.8574,
+      "median_ppp_annual": 1772.95,
+      "welfare_type": "consumption",
+      "survey_year": 2020.08,
+      "reporting_year": 2020,
+      "ppp_pip": 15.4242,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GNB",
+      "median_ppp_daily": 3.4495,
+      "median_ppp_annual": 1259.07,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "reporting_year": 2021,
+      "ppp_pip": 217.9847,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GNQ",
+      "median_ppp_daily": 7.1343,
+      "median_ppp_annual": 2604.02,
+      "welfare_type": "consumption",
+      "survey_year": 2022.61,
+      "reporting_year": 2022,
+      "ppp_pip": 287.6907,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GRC",
+      "median_ppp_daily": 28.9118,
+      "median_ppp_annual": 10552.81,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.6006,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GRD",
+      "median_ppp_daily": 13.9224,
+      "median_ppp_annual": 5081.68,
+      "welfare_type": "consumption",
+      "survey_year": 2018.36,
+      "reporting_year": 2018,
+      "ppp_pip": 1.8509,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GTM",
+      "median_ppp_daily": 8.7305,
+      "median_ppp_annual": 3186.63,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 3.443,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "GUY",
+      "median_ppp_daily": 7.7049,
+      "median_ppp_annual": 2812.29,
+      "welfare_type": "income",
+      "survey_year": 1998.0,
+      "reporting_year": 1998,
+      "ppp_pip": 99.4597,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "HND",
+      "median_ppp_daily": 8.3515,
+      "median_ppp_annual": 3048.3,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 11.7821,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "HRV",
+      "median_ppp_daily": 36.7349,
+      "median_ppp_annual": 13408.24,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 3.6361,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "HTI",
+      "median_ppp_daily": 3.5941,
+      "median_ppp_annual": 1311.85,
+      "welfare_type": "consumption",
+      "survey_year": 2012.0,
+      "reporting_year": 2012,
+      "ppp_pip": 53.0312,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "HUN",
+      "median_ppp_daily": 22.139,
+      "median_ppp_annual": 8080.73,
+      "welfare_type": "income",
+      "survey_year": 2017.0,
+      "reporting_year": 2017,
+      "ppp_pip": 165.8212,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "IDN",
+      "median_ppp_daily": 6.656,
+      "median_ppp_annual": 2429.44,
+      "welfare_type": "consumption",
+      "survey_year": 2025.0,
+      "reporting_year": 2025,
+      "ppp_pip": 5353.5596,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "IND",
+      "median_ppp_daily": 5.5365,
+      "median_ppp_annual": 2020.82,
+      "welfare_type": "consumption",
+      "survey_year": 2022.58,
+      "reporting_year": 2022,
+      "ppp_pip": 19.469,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "IRL",
+      "median_ppp_daily": 50.4868,
+      "median_ppp_annual": 18427.68,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.9806,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "IRN",
+      "median_ppp_daily": 10.186,
+      "median_ppp_annual": 3717.89,
+      "welfare_type": "consumption",
+      "survey_year": 2023.23,
+      "reporting_year": 2023,
+      "ppp_pip": 48021.043,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "IRQ",
+      "median_ppp_daily": 10.889,
+      "median_ppp_annual": 3974.48,
+      "welfare_type": "consumption",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 575.5928,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ISL",
+      "median_ppp_daily": 60.6327,
+      "median_ppp_annual": 22130.94,
+      "welfare_type": "income",
+      "survey_year": 2019.0,
+      "reporting_year": 2019,
+      "ppp_pip": 156.3648,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ISR",
+      "median_ppp_daily": 37.4847,
+      "median_ppp_annual": 13681.92,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 4.0122,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ITA",
+      "median_ppp_daily": 48.7904,
+      "median_ppp_annual": 17808.5,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.6932,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "JAM",
+      "median_ppp_daily": 14.2938,
+      "median_ppp_annual": 5217.24,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 90.6734,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "JOR",
+      "median_ppp_daily": 13.7111,
+      "median_ppp_annual": 5004.55,
+      "welfare_type": "consumption",
+      "survey_year": 2010.24,
+      "reporting_year": 2010,
+      "ppp_pip": 0.3441,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "JPN",
+      "median_ppp_daily": 42.1728,
+      "median_ppp_annual": 15393.07,
+      "welfare_type": "income",
+      "survey_year": 2020.0,
+      "reporting_year": 2020,
+      "ppp_pip": 109.2182,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "KAZ",
+      "median_ppp_daily": 12.244,
+      "median_ppp_annual": 4469.06,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 142.3611,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "KEN",
+      "median_ppp_daily": 3.215,
+      "median_ppp_annual": 1173.47,
+      "welfare_type": "consumption",
+      "survey_year": 2022.67,
+      "reporting_year": 2022,
+      "ppp_pip": 42.428,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "KGZ",
+      "median_ppp_daily": 6.8567,
+      "median_ppp_annual": 2502.7,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 24.3161,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "KIR",
+      "median_ppp_daily": 8.0512,
+      "median_ppp_annual": 2938.69,
+      "welfare_type": "consumption",
+      "survey_year": 2023.42,
+      "reporting_year": 2023,
+      "ppp_pip": 0.9171,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "KOR",
+      "median_ppp_daily": 54.2515,
+      "median_ppp_annual": 19801.8,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 943.4209,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LAO",
+      "median_ppp_daily": 6.1705,
+      "median_ppp_annual": 2252.23,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 3260.2532,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LBN",
+      "median_ppp_daily": 8.1871,
+      "median_ppp_annual": 2988.29,
+      "welfare_type": "consumption",
+      "survey_year": 2022.8,
+      "reporting_year": 2022,
+      "ppp_pip": 4792.2441,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LBR",
+      "median_ppp_daily": 3.8718,
+      "median_ppp_annual": 1413.21,
+      "welfare_type": "consumption",
+      "survey_year": 2016.0,
+      "reporting_year": 2016,
+      "ppp_pip": 75.8997,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LCA",
+      "median_ppp_daily": 23.2026,
+      "median_ppp_annual": 8468.95,
+      "welfare_type": "consumption",
+      "survey_year": 2015.78,
+      "reporting_year": 2015,
+      "ppp_pip": 1.6434,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LKA",
+      "median_ppp_daily": 7.9058,
+      "median_ppp_annual": 2885.62,
+      "welfare_type": "consumption",
+      "survey_year": 2019.0,
+      "reporting_year": 2019,
+      "ppp_pip": 58.2961,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LSO",
+      "median_ppp_daily": 3.58,
+      "median_ppp_annual": 1306.7,
+      "welfare_type": "consumption",
+      "survey_year": 2017.14,
+      "reporting_year": 2017,
+      "ppp_pip": 5.8172,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LTU",
+      "median_ppp_daily": 37.5957,
+      "median_ppp_annual": 13722.43,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.4876,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LUX",
+      "median_ppp_daily": 89.4852,
+      "median_ppp_annual": 32662.1,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.9544,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "LVA",
+      "median_ppp_daily": 32.9529,
+      "median_ppp_annual": 12027.81,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.5482,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MAR",
+      "median_ppp_daily": 8.4346,
+      "median_ppp_annual": 3078.63,
+      "welfare_type": "consumption",
+      "survey_year": 2013.5,
+      "reporting_year": 2013,
+      "ppp_pip": 4.091,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MDA",
+      "median_ppp_daily": 11.6481,
+      "median_ppp_annual": 4251.56,
+      "welfare_type": "consumption",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 6.3328,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MDG",
+      "median_ppp_daily": 2.2394,
+      "median_ppp_annual": 817.38,
+      "welfare_type": "consumption",
+      "survey_year": 2021.75,
+      "reporting_year": 2021,
+      "ppp_pip": 1131.7112,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MDV",
+      "median_ppp_daily": 15.0144,
+      "median_ppp_annual": 5480.26,
+      "welfare_type": "consumption",
+      "survey_year": 2019.6,
+      "reporting_year": 2019,
+      "ppp_pip": 10.2487,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MEX",
+      "median_ppp_daily": 14.2918,
+      "median_ppp_annual": 5216.51,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 10.9058,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MHL",
+      "median_ppp_daily": 10.1585,
+      "median_ppp_annual": 3707.85,
+      "welfare_type": "consumption",
+      "survey_year": 2019.5,
+      "reporting_year": 2019,
+      "ppp_pip": 0.9521,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MKD",
+      "median_ppp_daily": 15.5196,
+      "median_ppp_annual": 5664.65,
+      "welfare_type": "income",
+      "survey_year": 2019.0,
+      "reporting_year": 2019,
+      "ppp_pip": 20.557,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MLI",
+      "median_ppp_daily": 3.6697,
+      "median_ppp_annual": 1339.44,
+      "welfare_type": "consumption",
+      "survey_year": 2021.57,
+      "reporting_year": 2021,
+      "ppp_pip": 192.8615,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MLT",
+      "median_ppp_daily": 56.0289,
+      "median_ppp_annual": 20450.55,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.6113,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MMR",
+      "median_ppp_daily": 5.4399,
+      "median_ppp_annual": 1985.56,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "reporting_year": 2017,
+      "ppp_pip": 499.6977,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MNE",
+      "median_ppp_daily": 17.7781,
+      "median_ppp_annual": 6489.01,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 0.4032,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MNG",
+      "median_ppp_daily": 12.0283,
+      "median_ppp_annual": 4390.33,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 957.8393,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MOZ",
+      "median_ppp_daily": 1.4782,
+      "median_ppp_annual": 539.54,
+      "welfare_type": "consumption",
+      "survey_year": 2022.08,
+      "reporting_year": 2022,
+      "ppp_pip": 23.6232,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MRT",
+      "median_ppp_daily": 6.0598,
+      "median_ppp_annual": 2211.83,
+      "welfare_type": "consumption",
+      "survey_year": 2019.6,
+      "reporting_year": 2019,
+      "ppp_pip": 121.16,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MUS",
+      "median_ppp_daily": 13.512,
+      "median_ppp_annual": 4931.88,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "reporting_year": 2017,
+      "ppp_pip": 18.7661,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MWI",
+      "median_ppp_daily": 1.9209,
+      "median_ppp_annual": 701.13,
+      "welfare_type": "consumption",
+      "survey_year": 2019.31,
+      "reporting_year": 2019,
+      "ppp_pip": 282.0942,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "MYS",
+      "median_ppp_daily": 29.5548,
+      "median_ppp_annual": 10787.5,
+      "welfare_type": "income",
+      "survey_year": 2021.46,
+      "reporting_year": 2021,
+      "ppp_pip": 1.5549,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NAM",
+      "median_ppp_daily": 6.2054,
+      "median_ppp_annual": 2264.97,
+      "welfare_type": "consumption",
+      "survey_year": 2015.27,
+      "reporting_year": 2015,
+      "ppp_pip": 7.239,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NER",
+      "median_ppp_daily": 2.6616,
+      "median_ppp_annual": 971.48,
+      "welfare_type": "consumption",
+      "survey_year": 2021.5,
+      "reporting_year": 2021,
+      "ppp_pip": 210.6579,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NGA",
+      "median_ppp_daily": 3.3873,
+      "median_ppp_annual": 1236.36,
+      "welfare_type": "consumption",
+      "survey_year": 2022.71,
+      "reporting_year": 2022,
+      "ppp_pip": 155.7235,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NIC",
+      "median_ppp_daily": 8.9005,
+      "median_ppp_annual": 3248.68,
+      "welfare_type": "income",
+      "survey_year": 2014.0,
+      "reporting_year": 2014,
+      "ppp_pip": 12.5824,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NLD",
+      "median_ppp_daily": 69.0861,
+      "median_ppp_annual": 25216.43,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 0.7972,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NOR",
+      "median_ppp_daily": 77.7559,
+      "median_ppp_annual": 28380.9,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 10.0368,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NPL",
+      "median_ppp_daily": 8.0324,
+      "median_ppp_annual": 2931.83,
+      "welfare_type": "consumption",
+      "survey_year": 2022.5,
+      "reporting_year": 2022,
+      "ppp_pip": 33.8332,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "NRU",
+      "median_ppp_daily": 6.2722,
+      "median_ppp_annual": 2289.35,
+      "welfare_type": "consumption",
+      "survey_year": 2012.69,
+      "reporting_year": 2012,
+      "ppp_pip": 1.3351,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PAK",
+      "median_ppp_daily": 4.3222,
+      "median_ppp_annual": 1577.6,
+      "welfare_type": "consumption",
+      "survey_year": 2024.6,
+      "reporting_year": 2024,
+      "ppp_pip": 42.5277,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PAN",
+      "median_ppp_daily": 18.5764,
+      "median_ppp_annual": 6780.39,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 0.5629,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PER",
+      "median_ppp_daily": 10.6697,
+      "median_ppp_annual": 3894.44,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 1.9181,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PHL",
+      "median_ppp_daily": 5.6675,
+      "median_ppp_annual": 2068.64,
+      "welfare_type": "consumption",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 20.7462,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PNG",
+      "median_ppp_daily": 2.8941,
+      "median_ppp_annual": 1056.35,
+      "welfare_type": "consumption",
+      "survey_year": 2009.67,
+      "reporting_year": 2009,
+      "ppp_pip": 2.903,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "POL",
+      "median_ppp_daily": 38.8392,
+      "median_ppp_annual": 14176.31,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 1.8581,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PRT",
+      "median_ppp_daily": 33.6769,
+      "median_ppp_annual": 12292.07,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.61,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PRY",
+      "median_ppp_daily": 14.922,
+      "median_ppp_annual": 5446.53,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 2754.5078,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "PSE",
+      "median_ppp_daily": 12.0483,
+      "median_ppp_annual": 4397.63,
+      "welfare_type": "consumption",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 2.0074,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "QAT",
+      "median_ppp_daily": 73.3647,
+      "median_ppp_annual": 26778.12,
+      "welfare_type": "income",
+      "survey_year": 2017.5,
+      "reporting_year": 2017,
+      "ppp_pip": 2.9119,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ROU",
+      "median_ppp_daily": 29.8524,
+      "median_ppp_annual": 10896.13,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 1.8748,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "RUS",
+      "median_ppp_daily": 33.6202,
+      "median_ppp_annual": 12271.37,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 25.7555,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "RWA",
+      "median_ppp_daily": 3.5102,
+      "median_ppp_annual": 1281.22,
+      "welfare_type": "consumption",
+      "survey_year": 2023.77,
+      "reporting_year": 2023,
+      "ppp_pip": 291.5977,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SDN",
+      "median_ppp_daily": 5.9151,
+      "median_ppp_annual": 2159.01,
+      "welfare_type": "consumption",
+      "survey_year": 2014.0,
+      "reporting_year": 2014,
+      "ppp_pip": 119.2407,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SEN",
+      "median_ppp_daily": 5.0356,
+      "median_ppp_annual": 1837.99,
+      "welfare_type": "consumption",
+      "survey_year": 2021.71,
+      "reporting_year": 2021,
+      "ppp_pip": 226.5763,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SLB",
+      "median_ppp_daily": 3.4308,
+      "median_ppp_annual": 1252.24,
+      "welfare_type": "consumption",
+      "survey_year": 2012.79,
+      "reporting_year": 2012,
+      "ppp_pip": 7.5466,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SLE",
+      "median_ppp_daily": 3.3587,
+      "median_ppp_annual": 1225.93,
+      "welfare_type": "consumption",
+      "survey_year": 2018.0,
+      "reporting_year": 2018,
+      "ppp_pip": 3170.7319,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SLV",
+      "median_ppp_daily": 11.8799,
+      "median_ppp_annual": 4336.16,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.4943,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SRB",
+      "median_ppp_daily": 21.0575,
+      "median_ppp_annual": 7685.99,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 48.2473,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SSD",
+      "median_ppp_daily": 1.6545,
+      "median_ppp_annual": 603.89,
+      "welfare_type": "consumption",
+      "survey_year": 2016.5,
+      "reporting_year": 2016,
+      "ppp_pip": 158.0521,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "STP",
+      "median_ppp_daily": 5.9663,
+      "median_ppp_annual": 2177.7,
+      "welfare_type": "consumption",
+      "survey_year": 2017.0,
+      "reporting_year": 2017,
+      "ppp_pip": 10.5694,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SUR",
+      "median_ppp_daily": 14.4376,
+      "median_ppp_annual": 5269.72,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 6.335,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SVK",
+      "median_ppp_daily": 24.4624,
+      "median_ppp_annual": 8928.78,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.5703,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SVN",
+      "median_ppp_daily": 49.2357,
+      "median_ppp_annual": 17971.03,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 0.6003,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SWE",
+      "median_ppp_daily": 55.6034,
+      "median_ppp_annual": 20295.24,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 8.9355,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SWZ",
+      "median_ppp_daily": 3.3826,
+      "median_ppp_annual": 1234.65,
+      "welfare_type": "consumption",
+      "survey_year": 2016.17,
+      "reporting_year": 2016,
+      "ppp_pip": 6.189,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SYC",
+      "median_ppp_daily": 21.001,
+      "median_ppp_annual": 7665.37,
+      "welfare_type": "income",
+      "survey_year": 2018.08,
+      "reporting_year": 2018,
+      "ppp_pip": 9.8318,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "SYR",
+      "median_ppp_daily": 4.6131,
+      "median_ppp_annual": 1683.78,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 506.8637,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TCD",
+      "median_ppp_daily": 3.6611,
+      "median_ppp_annual": 1336.3,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 215.8571,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TGO",
+      "median_ppp_daily": 3.8513,
+      "median_ppp_annual": 1405.72,
+      "welfare_type": "consumption",
+      "survey_year": 2021.63,
+      "reporting_year": 2021,
+      "ppp_pip": 220.6677,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "THA",
+      "median_ppp_daily": 15.7175,
+      "median_ppp_annual": 5736.89,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 11.7121,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TJK",
+      "median_ppp_daily": 7.6143,
+      "median_ppp_annual": 2779.22,
+      "welfare_type": "consumption",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 3.2183,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TKM",
+      "median_ppp_daily": 3.8301,
+      "median_ppp_annual": 1397.99,
+      "welfare_type": "consumption",
+      "survey_year": 1998.0,
+      "reporting_year": 1998,
+      "ppp_pip": 1.5722,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TLS",
+      "median_ppp_daily": 3.21,
+      "median_ppp_annual": 1171.65,
+      "welfare_type": "consumption",
+      "survey_year": 2014.31,
+      "reporting_year": 2014,
+      "ppp_pip": 0.5596,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TON",
+      "median_ppp_daily": 11.0027,
+      "median_ppp_annual": 4015.99,
+      "welfare_type": "consumption",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 1.7353,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TTO",
+      "median_ppp_daily": 12.1717,
+      "median_ppp_annual": 4442.67,
+      "welfare_type": "income",
+      "survey_year": 1992.0,
+      "reporting_year": 1992,
+      "ppp_pip": 4.0619,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TUN",
+      "median_ppp_daily": 13.04,
+      "median_ppp_annual": 4759.6,
+      "welfare_type": "consumption",
+      "survey_year": 2021.23,
+      "reporting_year": 2021,
+      "ppp_pip": 0.8731,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TUR",
+      "median_ppp_daily": 27.7453,
+      "median_ppp_annual": 10127.03,
+      "welfare_type": "income",
+      "survey_year": 2023.0,
+      "reporting_year": 2023,
+      "ppp_pip": 3.0233,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TUV",
+      "median_ppp_daily": 6.9399,
+      "median_ppp_annual": 2533.06,
+      "welfare_type": "consumption",
+      "survey_year": 2010.0,
+      "reporting_year": 2010,
+      "ppp_pip": 1.2945,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TWN",
+      "median_ppp_daily": 46.1443,
+      "median_ppp_annual": 16842.67,
+      "welfare_type": "income",
+      "survey_year": 2021.0,
+      "reporting_year": 2021,
+      "ppp_pip": 15.7016,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "TZA",
+      "median_ppp_daily": 2.9583,
+      "median_ppp_annual": 1079.78,
+      "welfare_type": "consumption",
+      "survey_year": 2017.92,
+      "reporting_year": 2018,
+      "ppp_pip": 681.8509,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "UGA",
+      "median_ppp_daily": 2.5614,
+      "median_ppp_annual": 934.91,
+      "welfare_type": "consumption",
+      "survey_year": 2019.64,
+      "reporting_year": 2019,
+      "ppp_pip": 1315.2677,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "UKR",
+      "median_ppp_daily": 13.7033,
+      "median_ppp_annual": 5001.7,
+      "welfare_type": "consumption",
+      "survey_year": 2020.0,
+      "reporting_year": 2020,
+      "ppp_pip": 8.6627,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "URY",
+      "median_ppp_daily": 26.8408,
+      "median_ppp_annual": 9796.89,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 28.0055,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "USA",
+      "median_ppp_daily": 72.0654,
+      "median_ppp_annual": 26303.87,
+      "welfare_type": "income",
+      "survey_year": 2024.0,
+      "reporting_year": 2024,
+      "ppp_pip": 1,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "UZB",
+      "median_ppp_daily": 16.539,
+      "median_ppp_annual": 6036.74,
+      "welfare_type": "income",
+      "survey_year": 2025.0,
+      "reporting_year": 2025,
+      "ppp_pip": 2906.5815,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "VEN",
+      "median_ppp_daily": 9.3859,
+      "median_ppp_annual": 3425.85,
+      "welfare_type": "income",
+      "survey_year": 2006.0,
+      "reporting_year": 2006,
+      "ppp_pip": 15517657088,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "VNM",
+      "median_ppp_daily": 13.3192,
+      "median_ppp_annual": 4861.51,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 7510.8223,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "VUT",
+      "median_ppp_daily": 5.1672,
+      "median_ppp_annual": 1886.03,
+      "welfare_type": "consumption",
+      "survey_year": 2019.21,
+      "reporting_year": 2019,
+      "ppp_pip": 120.3516,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "WSM",
+      "median_ppp_daily": 8.3762,
+      "median_ppp_annual": 3057.31,
+      "welfare_type": "consumption",
+      "survey_year": 2013.25,
+      "reporting_year": 2013,
+      "ppp_pip": 1.7888,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "XKX",
+      "median_ppp_daily": 10.4482,
+      "median_ppp_annual": 3813.59,
+      "welfare_type": "income",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 0.3902,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "YEM",
+      "median_ppp_daily": 3.798,
+      "median_ppp_annual": 1386.27,
+      "welfare_type": "consumption",
+      "survey_year": 2014.0,
+      "reporting_year": 2014,
+      "ppp_pip": 572.0146,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ZAF",
+      "median_ppp_daily": 6.558,
+      "median_ppp_annual": 2393.67,
+      "welfare_type": "consumption",
+      "survey_year": 2022.85,
+      "reporting_year": 2022,
+      "ppp_pip": 7.5245,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ZMB",
+      "median_ppp_daily": 1.6792,
+      "median_ppp_annual": 612.91,
+      "welfare_type": "consumption",
+      "survey_year": 2022.0,
+      "reporting_year": 2022,
+      "ppp_pip": 6.1896,
+      "is_interpolated": false
+    },
+    {
+      "iso3": "ZWE",
+      "median_ppp_daily": 3.0479,
+      "median_ppp_annual": 1112.48,
+      "welfare_type": "consumption",
+      "survey_year": 2019.0,
+      "reporting_year": 2019,
+      "ppp_pip": 0.6442,
+      "is_interpolated": false
+    }
+  ]
+}

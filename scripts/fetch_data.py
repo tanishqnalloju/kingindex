@@ -14,6 +14,24 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "countries.json"
+PIP_OUT = ROOT / "data" / "pip_medians.json"
+
+# Plot / ranking exclusions (iso3 + reason). Also stored in meta.
+EXCLUSIONS = [
+    {"iso3": "TKM", "reason": "Collapsed official FX (junk PLI)"},
+    {"iso3": "ZWE", "reason": "Collapsed official FX (junk PLI)"},
+    {"iso3": "LBR", "reason": "Collapsed official FX (junk PLI)"},
+    {"iso3": "ARG", "reason": "Hyperinflation / FX collapse (PLI far below floor)"},
+    {"iso3": "VEN", "reason": "Missing or broken FX"},
+    {"iso3": "AFG", "reason": "Conflict / survey reliability"},
+    {"iso3": "SYR", "reason": "Conflict"},
+    {"iso3": "YEM", "reason": "Conflict"},
+    {"iso3": "SSD", "reason": "Conflict"},
+    {"iso3": "SOM", "reason": "Conflict / missing reliable series"},
+    {"iso3": "ERI", "reason": "Very old / unreliable survey series"},
+    {"iso3": "PRK", "reason": "No usable survey median"},
+]
+OLD_SURVEY_CUTOFF = 2005  # surveys older than this get exclusion-style flag
 
 INDICATORS = {
     "ppp_cons": "PA.NUS.PRVT.PP",
@@ -174,6 +192,18 @@ def is_aggregate(iso3: str, name: str | None, region: str | None) -> bool:
     return False
 
 
+def load_pip_medians() -> tuple[dict[str, dict], dict]:
+    """Load PIP medians; run fetch_pip if missing."""
+    if not PIP_OUT.exists():
+        print("PIP medians missing — running scripts/fetch_pip.py…")
+        import runpy
+        runpy.run_path(str(ROOT / "scripts" / "fetch_pip.py"), run_name="__main__")
+    payload = json.loads(PIP_OUT.read_text(encoding="utf-8"))
+    by = {c["iso3"]: c for c in payload.get("countries", [])}
+    return by, payload.get("meta") or {}
+
+
+
 def build() -> dict:
     print("Fetching country metadata…")
     meta = fetch_countries_meta()
@@ -271,14 +301,56 @@ def build() -> dict:
     if len(countries) < 50:
         raise RuntimeError(f"Too few countries ({len(countries)}); refusing to write empty/broken snapshot")
 
+    print("Merging PIP medians…")
+    pip_by, pip_meta = load_pip_medians()
+    excl_map = {e["iso3"]: e["reason"] for e in EXCLUSIONS}
+    ppp_base_year = pip_meta.get("ppp_base_year")
+    merged = 0
+    for c in countries:
+        iso = c["iso3"]
+        pip = pip_by.get(iso)
+        if pip:
+            c["median_ppp_annual"] = pip["median_ppp_annual"]
+            c["median_ppp_daily"] = pip.get("median_ppp_daily")
+            c["welfare_type"] = pip.get("welfare_type")
+            c["survey_year"] = pip.get("survey_year")
+            c["ppp_base_year"] = ppp_base_year
+            merged += 1
+        else:
+            c["median_ppp_annual"] = None
+            c["median_ppp_daily"] = None
+            c["welfare_type"] = None
+            c["survey_year"] = None
+            c["ppp_base_year"] = ppp_base_year
+
+        reasons = []
+        if iso in excl_map:
+            reasons.append(excl_map[iso])
+        sy = c.get("survey_year")
+        if sy is not None and float(sy) < OLD_SURVEY_CUTOFF:
+            reasons.append(f"Survey year {sy} older than {OLD_SURVEY_CUTOFF}")
+        # Collapsed FX floor (same rule as UI)
+        if not (isinstance(c.get("pli_us"), (int, float)) and c["pli_us"] >= 0.05
+                and c.get("ppp") and c["ppp"] > 0 and c.get("fx") and c["fx"] > 0):
+            reasons.append("Unreliable PLI / PPP / FX")
+        c["excluded"] = bool(reasons)
+        c["exclude_reason"] = "; ".join(reasons) if reasons else None
+
+    print(f"  PIP medians attached: {merged}/{len(countries)}")
+
     payload = {
         "meta": {
             "generated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "source": "World Bank WDI, most recent available per indicator",
+            "source": "World Bank WDI + PIP medians (national, latest non-interpolated preferred)",
             "notes": (
                 "Price levels use private-consumption PPP / official FX. "
-                "Percentiles are lognormal approximations, not PIP microdata."
+                "Core metric is multiple of local median from PIP (annualized $/day × 365). "
+                "No Gini imputation for the Y axis."
             ),
+            "pip_endpoint": pip_meta.get("endpoint") or "https://api.worldbank.org/pip/v1/pip",
+            "ppp_base_year": ppp_base_year,
+            "exclusions": EXCLUSIONS,
+            "old_survey_cutoff": OLD_SURVEY_CUTOFF,
         },
         "countries": countries,
     }
@@ -293,10 +365,22 @@ def summary(payload: dict) -> None:
     print(f"Countries: {len(countries)}")
     if years:
         print(f"PPP year range: {min(years)}–{max(years)}")
-    for code in ("USA", "IND", "CHE", "JPN", "PRT"):
+    with_med = sum(1 for c in countries if c.get("median_ppp_annual"))
+    plottable = sum(
+        1 for c in countries
+        if c.get("median_ppp_annual") and not c.get("excluded")
+        and isinstance(c.get("pli_us"), (int, float)) and c["pli_us"] >= 0.05
+    )
+    excluded = sum(1 for c in countries if c.get("excluded"))
+    print(f"With PIP median: {with_med}  plottable: {plottable}  excluded flagged: {excluded}")
+    for code in ("USA", "IND", "BGD", "CHE", "JPN", "PRT"):
         c = by_iso.get(code)
         if c:
-            print(f"  {code}: pli_us={c['pli_us']:.4f}  ppp={c['ppp']}  fx={c['fx']}  mean={c['mean_income_ppp']}")
+            print(
+                f"  {code}: pli_us={c['pli_us']:.4f}  ppp={c['ppp']}  fx={c['fx']}  "
+                f"median_ann={c.get('median_ppp_annual')}  welfare={c.get('welfare_type')}  "
+                f"survey={c.get('survey_year')}"
+            )
         else:
             print(f"  {code}: MISSING")
     print(f"Wrote {OUT}")
