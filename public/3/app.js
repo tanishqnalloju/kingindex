@@ -374,14 +374,21 @@
     const your_ppp = (incomeLocal / hh) / home.ppp;
     const homeMult = hasMedian(home) ? your_ppp / home.median_ppp_annual : null;
 
+    const homeLead2 = homeMult != null
+      ? `<div class="metric lead lead-accent"><div class="k">× home median</div><div class="v">${fmtMultiple(homeMult)}</div>
+        <div class="s">${home.welfare_type || "—"} · PIP ${home.survey_year != null ? Math.round(home.survey_year) : "—"} · median $${fmtInt(home.median_ppp_annual)}/yr</div></div>`
+      : `<div class="metric lead lead-accent"><div class="k">Per-capita PPP</div><div class="v">about $${fmtInt(your_ppp)} Int$</div>
+        <div class="s">income ÷ ${hh} ÷ PPP</div></div>`;
+    const homeSecondaryPpp = homeMult != null
+      ? `<div class="metric"><div class="k">Per-capita PPP</div><div class="v">about $${fmtInt(your_ppp)} Int$</div>
+        <div class="s">income ÷ ${hh} ÷ PPP</div></div>`
+      : "";
     el("homeCard").innerHTML = `
       <h2>Home · ${escapeHtml(home.name)}</h2>
-      <div class="metric"><div class="k">Income (local)</div><div class="v">${fmtMoney(incomeLocal, home.currency, home.iso3)}</div>
+      <div class="metric lead"><div class="k">Income (local)</div><div class="v">${fmtMoney(incomeLocal, home.currency, home.iso3)}</div>
         <div class="s">${itype}${hh !== 1 ? ` · household ${hh}` : ""}</div></div>
-      <div class="metric"><div class="k">Per-capita PPP</div><div class="v">about $${fmtInt(your_ppp)} Int$</div>
-        <div class="s">income ÷ ${hh} ÷ PPP</div></div>
-      <div class="metric"><div class="k">× home median</div><div class="v">${fmtMultiple(homeMult)}</div>
-        <div class="s">${home.welfare_type || "—"} · PIP ${home.survey_year != null ? Math.round(home.survey_year) : "—"} · median $${fmtInt(home.median_ppp_annual)}/yr</div></div>
+      ${homeLead2}
+      ${homeSecondaryPpp}
       <div class="metric"><div class="k">Price level vs US</div><div class="v">${fmtInt(home.pli_us * 100)} <span style="color:var(--muted);font-size:0.8rem;font-weight:400">(US=100)</span></div>
         <div class="s">${priceLevelVsUS(home.pli_us) || ""}</div></div>`;
 
@@ -399,10 +406,10 @@
         const cv = costVsHome(home.pli_us, dest.pli_us);
         el("destCard").innerHTML = `
           <h2>Destination · ${escapeHtml(dest.name)}</h2>
-          <div class="metric"><div class="k">× local median</div><div class="v" style="font-size:1.35rem">${fmtMultiple(r.multiple)}</div>
+          <div class="metric lead lead-accent"><div class="k">× local median</div><div class="v">${fmtMultiple(r.multiple)}</div>
             <div class="s">${r.welfare_type || "—"} · PIP ${r.survey_year != null ? Math.round(r.survey_year) : "—"} · median $${fmtInt(r.median_ppp_annual)}/yr</div></div>
-          <div class="metric"><div class="k">PPP equivalent (household)</div><div class="v">${fmtMoney(r.equiv, dest.currency, dest.iso3)}</div>
-            <div class="s">Same PPP lifestyle</div></div>
+          <div class="metric lead lead-ppp"><div class="k">PPP equivalent (household)</div><div class="v">${fmtMoney(r.equiv, dest.currency, dest.iso3)}</div>
+            <div class="s">Same PPP lifestyle · <a class="inline-ppp" href="https://ppp.tanishqnalloju.com" target="_blank" rel="noopener noreferrer">Same figure as PPP Calculator</a></div></div>
           <div class="metric"><div class="k">FX / wire-transfer view</div><div class="v" style="font-size:1rem">${fmtMoney(r.fxLocal, dest.currency, dest.iso3)}</div>
             <div class="s">If you just convert cash</div></div>
           <div class="metric"><div class="k">Cost vs home</div><div class="v" style="font-size:1rem;font-weight:600">${escapeHtml(cv.primary || "—")}</div>
@@ -441,6 +448,21 @@
         + (costBit ? ` · ${costBit}` : "") + ` · Above typical in ${above} of ${plotRows.length}`;
     } else {
       el("liveLine").textContent = `Above typical in ${above} of ${plotRows.length} countries with reliable PLI + PIP median.`;
+    }
+    if (window.__phosphorScope && typeof window.__phosphorScope.onSignal === "function") {
+      const hasDestSignal = !!(destRow && destRow.reliable);
+      window.__phosphorScope.onSignal({
+        multiple: destRow && destRow.multiple != null ? destRow.multiple : homeMult,
+        destMultiple: destRow && destRow.multiple != null ? destRow.multiple : null,
+        homeMult: homeMult,
+        pppEquiv: destRow && destRow.equiv != null ? destRow.equiv : null,
+        fxLocal: destRow && destRow.fxLocal != null ? destRow.fxLocal : null,
+        destCurrency: destRow ? destRow.currency : "",
+        incomeLocal: incomeLocal,
+        destIso: destIso || "",
+        homeIso: home.iso3,
+        hasDest: hasDestSignal
+      });
     }
     renderScatter(home, destIso);
     renderTable();
@@ -647,7 +669,7 @@
   function applyTheme(theme) {
     if (theme !== "light" && theme !== "dark") theme = "light";
     document.documentElement.setAttribute("data-theme", theme);
-    try { localStorage.setItem("kingindex-theme", theme); } catch (_) {}
+    try { localStorage.setItem("kingindex-v2-3-theme", theme); } catch (_) {}
     const btn = el("themeToggle");
     if (btn) {
       const next = theme === "dark" ? "light" : "dark";
@@ -657,16 +679,23 @@
       if (icon) icon.textContent = theme === "dark" ? "☀" : "☾";
       if (label) label.textContent = theme === "dark" ? "Light" : "Dark";
     }
+    try { window.dispatchEvent(new CustomEvent("kingindex:themechange", { detail: { theme } })); } catch (_) {}
   }
   (function initTheme() {
     let t = "light";
-    try { const saved = localStorage.getItem("kingindex-theme"); if (saved === "light" || saved === "dark") t = saved; } catch (_) {}
+    try {
+      const saved = localStorage.getItem("kingindex-v2-3-theme");
+      if (saved === "light" || saved === "dark") t = saved;
+    } catch (_) {}
     applyTheme(t);
   })();
-  el("themeToggle").addEventListener("click", () => {
-    const cur = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-    applyTheme(cur === "dark" ? "light" : "dark");
-  });
+  if (el("themeToggle")) {
+    el("themeToggle").addEventListener("click", () => {
+      const cur = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      applyTheme(cur === "dark" ? "light" : "dark");
+    });
+  }
+
   window.addEventListener("resize", () => {
     if (!DATA) return;
     const home = byIso[el("home").value];

@@ -7,16 +7,34 @@ Legacy: `ppp-index-calculator.tanishqnalloju.com` → 301 redirect (query string
 
 KingIndex converts an annual income (home currency) into PPP international dollars and compares it to World Bank **PIP national medians**. The core number is **× local median**, not percentile crowns.
 
-It is a static page + baked snapshot (`data/countries.json`). No accounts, no API keys, no backend.
+Production serves a **multi-build** static tree from `public/`:
+
+| Path | Build |
+|------|--------|
+| `/` | Chooser |
+| `/1/` | Alternative (editorial lab) |
+| `/2/` | Improved (production IA + audit fixes) |
+| `/3/` | Phosphor (CRT oscilloscope lab) |
+
+Assets under `public/` are the source of truth (same layout as kingindex-v2 staging). Worker name remains `ppp-index-calculator` so the apex custom domain stays attached. Staging stays on Worker `kingindex-v2` → `v2.kingindex.tanishqnalloju.com`.
 
 ## How to run
 
 ```bash
-python3 scripts/fetch_pip.py      # PIP medians → data/pip_medians.json
-python3 scripts/fetch_data.py     # WDI + merge PIP → data/countries.json
-npm run sync-assets               # copy into public/ for Workers
-python3 -m http.server 8080       # open http://localhost:8080
-node scripts/verify_median.js     # IND ₹800k → BGD fixture
+npm run parity                 # IND ₹800k → BGD fixture across all builds
+npx wrangler deploy            # deploy Worker ppp-index-calculator
+npx wrangler dev               # local preview
+python3 scripts/fetch_pip.py   # optional: refresh PIP medians
+python3 scripts/fetch_data.py  # optional: refresh countries.json into data/
+```
+
+After refreshing root `data/countries.json`, copy into each build:
+
+```bash
+cp data/countries.json public/data/countries.json
+cp data/countries.json public/1/data/countries.json
+cp data/countries.json public/2/data/countries.json
+cp data/countries.json public/3/data/countries.json
 ```
 
 ## Formulas
@@ -37,10 +55,9 @@ Share URL params: `income`, `home`, `type`, `dest`, optional `household_size` (d
 ## Data
 
 - **Prices:** World Bank WDI private-consumption PPP (`PA.NUS.PRVT.PP`) / official FX (`PA.NUS.FCRF`).
-- **Medians:** World Bank PIP API `https://api.worldbank.org/pip/v1/pip` — national, prefer latest non-interpolated survey; daily median annualized ×365 → `median_ppp_annual`.
+- **Medians:** World Bank PIP API — national, prefer latest non-interpolated survey; daily median annualized ×365 → `median_ppp_annual`.
 - Also store `welfare_type`, `survey_year`, `ppp_base_year`.
-- **Exclusions** (iso3 + reason) in `meta.exclusions` + old-survey cutoff + unreliable PLI floor (~5% of US). Plot = reliable PLI ∩ median − exclusions.
-- No Gini imputation for the Y axis. No Infinity/NaN on the scatter.
+- **Exclusions** in `meta.exclusions` + old-survey cutoff + unreliable PLI floor (~5% of US).
 
 ### Self-check: ₹800,000 net · home=IND · dest=BGD · household_size=1
 
@@ -48,18 +65,9 @@ Share URL params: `income`, `home`, `type`, `dest`, optional `household_size` (d
 |---|---|
 | PPP equivalent (BDT) | ~1,408,973 |
 | FX (BDT) | ~1,119,073 |
-| Cost % vs home | ~+25.9% (Bangladesh more expensive than India on PLI) |
+| Cost % vs home | ~+25.9% |
 | × BGD median | ~17.89× |
 | Welfare / survey | consumption · 2022 |
-
-(Exact figures follow the baked snapshot; re-run `verify_median.js` after refresh.)
-
-## UI notes
-
-- **Primary:** home/dest cards + summary emphasize **× median**, PPP equiv, FX, cost % vs home.
-- **Secondary:** “Lab: × median map” log-log scatter + log income slider (below cards).
-- Band filter lists exact tags only (no Comfortable+ / Affluent+). Public copy uses **cost vs home**, not “stretch”.
-- Crowns / “Locally king” / top 0.1% are not the hero product.
 
 ## What it is not
 
